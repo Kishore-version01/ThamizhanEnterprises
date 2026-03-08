@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thamizhan Enterprises</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        /* Canvas Background */
+        #starCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at bottom,
+                    #1e1b4b 0%,
+                    #0f172a 50%,
+                    #020617 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.4);
+            /* semi transparent */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            /* Safari support */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+        }
+
+        .navbar-inner {
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links li a {
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 500;
+            font-size: 15px;
+            transition: 0.3s ease;
+            position: relative;
+        }
+
+        /* Hover underline animation */
+        .nav-links li a::after {
+            content: "";
+            position: absolute;
+            width: 0%;
+            height: 2px;
+            background: #3b82f6;
+            left: 0;
+            bottom: -5px;
+            transition: 0.3s;
+        }
+
+        .nav-links li a:hover::after {
+            width: 100%;
+        }
+
+        /* Push content below fixed navbar */
+        .main-content {
+            margin-top: 90px;
+        }
+
+        @media (max-width: 768px) {
+            .navbar-inner {
+                padding: 15px;
+            }
+
+            .nav-links {
+                gap: 15px;
+                font-size: 14px;
+            }
+        }
+
+        /* BUTTON SECTION */
+
+        .button-container {
+            height: 100vh;
+            display: flex;
+            justify-content: space-between;
+            /* pushes to both sides */
+            align-items: center;
+            padding: 0 10%;
+        }
+
+        .button-box {
+            position: relative;
+            padding: 40px 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            background: rgba(30, 27, 75, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 40px rgba(59, 130, 246, 0.15);
+            max-width: 350px;
+            text-align: center;
+            transition: 0.4s ease;
+        }
+
+        .button-box::before {
+            content: "";
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.4), transparent 70%);
+            top: -50px;
+            right: -50px;
+            filter: blur(60px);
+            z-index: -1;
+        }
+
+        .button-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 60px rgba(139, 92, 246, 0.4);
+        }
+
+        .left-box::before {
+            content: "";
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.4), transparent 70%);
+            top: -50px;
+            right: -50px;
+            filter: blur(60px);
+            z-index: -1;
+        }
+
+        .right-box::before {
+            content: "";
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.4), transparent 70%);
+            top: -50px;
+            right: -50px;
+            filter: blur(60px);
+            z-index: -1;
+        }
+
+        .btn-desc {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #d1d5db;
+            line-height: 1.6;
+        }
+
+        .button-box:hover {
+            transform: translateY(-8px);
+            transition: 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .button-container {
+                flex-direction: column;
+                gap: 50px;
+                justify-content: center;
+            }
+        }
+
+        .button-container a {
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 12px;
+            text-decoration: none;
+            display: inline-block;
+            transition: 0.3s ease;
+        }
+
+        .new-route {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            border: 1px solid rgba(96, 165, 250, 0.4);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .new-route:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 35px rgba(59, 130, 246, 0.8);
+        }
+
+        .delay-entry {
+            background: linear-gradient(135deg, #5b21b6, #8b5cf6);
+            color: white;
+            border: 1px solid rgba(167, 139, 250, 0.4);
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+        }
+
+        .delay-entry:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 35px rgba(139, 92, 246, 0.8);
+        }
+
+        /* Animation */
+
+        .button-box {
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+
+        .show-box {
+            animation: boxReveal 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        @keyframes boxReveal {
+            0% {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Hamburger button */
+        .menu-toggle {
+            display: none;
+            font-size: 28px;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* MOBILE VIEW */
+        @media (max-width:768px) {
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: rgba(15, 23, 42, 0.95);
+                backdrop-filter: blur(10px);
+
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.4s ease;
+            }
+
+            .nav-links.active {
+                max-height: 400px;
+                padding: 20px 0;
+            }
+        }
+
+        /* HAMBURGER MENU */
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 6px;
+        }
+
+        .menu-toggle span {
+            width: 28px;
+            height: 3px;
+            background: white;
+            border-radius: 5px;
+            transition: 0.4s;
+        }
+
+        /* Hamburger → X animation */
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+
+        /* MOBILE NAVBAR */
+
+        @media (max-width:768px) {
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-links li a {
+                display: block;
+                padding: 10px 20px;
+                border-radius: 8px;
+                transition: 0.3s;
+            }
+
+            /* Highlight on hover / tap */
+            .nav-links li a:hover {
+                background: rgba(59, 130, 246, 0.2);
+                color: #60a5fa;
+                box-shadow:
+                    0 0 10px rgba(59, 130, 246, 0.6),
+                    0 0 20px rgba(59, 130, 246, 0.4);
+            }
+
+            .nav-links {
+
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+
+                flex-direction: column;
+                align-items: center;
+                gap: 25px;
+
+                background: rgba(15, 23, 42, 0.6);
+                backdrop-filter: blur(15px);
+
+                border-top: none;
+                max-height: 0;
+                overflow: hidden;
+
+                transition: max-height 0.5s ease;
+            }
+
+            .nav-links.active {
+                max-height: 600px;
+                padding: 30px 0;
+            }
+
+            .nav-links {
+                overflow-y: auto;
+            }
+
+        }
+
+        @media (max-width:768px) {
+
+            .nav-links li {
+                width: 100%;
+                text-align: center;
+            }
+
+        }
+
+        .nav-links li a {
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .nav-links li a:hover {
+            color: #60a5fa;
+            text-shadow:
+                0 0 5px #3b82f6,
+                0 0 10px #3b82f6,
+                0 0 20px #3b82f6;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <nav class="navbar">
+        <div class="navbar-inner">
+
+            <div class="logo">Thamizhan Enterprises</div>
+
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="/">Login</a></li>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/dataentry">Data Entry</a></li>
+                <li><a href="/progress">Progress</a></li>
+                <li><a href="/log">Log</a></li>
+                <li><a href="/about">About Us</a></li>
+            </ul>
+
+        </div>
+    </nav>
+
+
+    <div class="button-container">
+
+        <div class="button-box left-box">
+
+            <a href="/routeentry" class="new-route">New Route</a>
+            <p class="btn-desc">
+                Create and register a brand new train route into the system.
+            </p>
+        </div>
+
+        <div class="button-box right-box">
+
+            <a href="/delayentry" class="delay-entry">Delay Entry</a>
+            <p class="btn-desc">
+                Record and manage train delay details efficiently in the system.
+            </p>
+        </div>
+
+    </div>
+
+    <canvas id="starCanvas"></canvas>
+    <script>
+        document.querySelector(".new-route").addEventListener("click", function () {
+            window.location.href = "newentry.html";
+        });
+
+        document.querySelector(".delay-entry").addEventListener("click", function () {
+            window.location.href = "delay.html";
+        });
+
+        const canvas = document.getElementById("starCanvas");
+        const ctx = canvas ? canvas.getContext("2d") : null;
+
+        if (canvas && ctx) {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            let stars = [];
+            let shootingStar = null;
+
+            class Star {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.radius = Math.random() * 1.5;
+                    this.speed = Math.random() * 0.5 + 0.2;
+                    this.alpha = Math.random();
+                    this.alphaChange = Math.random() * 0.02 + 0.005;
+                }
+
+                update() {
+                    this.y += this.speed;
+
+                    if (this.y > canvas.height) {
+                        this.y = 0;
+                        this.x = Math.random() * canvas.width;
+                    }
+
+                    this.alpha += this.alphaChange;
+                    if (this.alpha <= 0 || this.alpha >= 1) {
+                        this.alphaChange = -this.alphaChange;
+                    }
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(255,255,255,${this.alpha})`;
+                    ctx.fill();
+                }
+            }
+
+            class ShootingStar {
+                constructor() {
+                    const side = Math.floor(Math.random() * 2);
+
+                    if (side === 0) {
+                        this.x = Math.random() * canvas.width;
+                        this.y = 0;
+                    } else {
+                        this.x = 0;
+                        this.y = Math.random() * canvas.height;
+                    }
+
+                    this.length = Math.random() * 120 + 80;
+                    this.speed = Math.random() * 6 + 6;
+                    this.angle = Math.PI / 4;
+                    this.active = true;
+                }
+
+                update() {
+                    this.x += Math.cos(this.angle) * this.speed;
+                    this.y += Math.sin(this.angle) * this.speed;
+
+                    if (this.x > canvas.width || this.y > canvas.height) {
+                        this.active = false;
+                    }
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.moveTo(this.x, this.y);
+                    ctx.lineTo(
+                        this.x - Math.cos(this.angle) * this.length,
+                        this.y - Math.sin(this.angle) * this.length
+                    );
+
+                    ctx.strokeStyle = "white";
+                    ctx.lineWidth = 2;
+                    ctx.shadowBlur = 20;
+                    ctx.shadowColor = "white";
+                    ctx.stroke();
+                    ctx.shadowBlur = 0;
+                }
+            }
+
+            function init() {
+                stars = [];
+                for (let i = 0; i < 300; i++) {
+                    stars.push(new Star());
+                }
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                stars.forEach(star => {
+                    star.update();
+                    star.draw();
+                });
+
+                if (shootingStar) {
+                    shootingStar.update();
+                    shootingStar.draw();
+                    if (!shootingStar.active) shootingStar = null;
+                }
+
+                requestAnimationFrame(animate);
+            }
+
+            init();
+            animate();
+
+            function randomShootingStar() {
+                shootingStar = new ShootingStar();
+                const nextTime = Math.random() * 4000 + 4000; // 4–8 sec
+                setTimeout(randomShootingStar, nextTime);
+            }
+
+            randomShootingStar();
+
+            window.addEventListener("resize", () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                init();
+            });
+        }
+
+
+
+        window.addEventListener("load", () => {
+            const boxes = document.querySelectorAll(".button-box");
+
+            boxes.forEach((box, index) => {
+                setTimeout(() => {
+                    box.classList.add("show-box");
+                }, 300 + index * 400);
+            });
+        });
+
+        const menuToggle = document.getElementById("menuToggle");
+        const navLinks = document.getElementById("navLinks");
+
+        menuToggle.addEventListener("click", () => {
+
+            menuToggle.classList.toggle("active");
+            navLinks.classList.toggle("active");
+
+        });
+
+    </script>
+</body>
+
+</html>

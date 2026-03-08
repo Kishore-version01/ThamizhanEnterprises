@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        /* Canvas Background */
+        #starCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at bottom,
+                    #1e1b4b 0%,
+                    #0f172a 50%,
+                    #020617 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.4);
+            /* semi transparent */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            /* Safari support */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+        }
+
+        .navbar-inner {
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links li a {
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 500;
+            font-size: 15px;
+            transition: 0.3s ease;
+            position: relative;
+        }
+
+        /* Hover underline animation */
+        .nav-links li a::after {
+            content: "";
+            position: absolute;
+            width: 0%;
+            height: 2px;
+            background: #3b82f6;
+            left: 0;
+            bottom: -5px;
+            transition: 0.3s;
+        }
+
+        .nav-links li a:hover::after {
+            width: 100%;
+        }
+
+        /* Push content below fixed navbar */
+        .main-content {
+            margin-top: 90px;
+        }
+
+        @media (max-width: 768px) {
+            .navbar-inner {
+                padding: 15px;
+            }
+
+            .nav-links {
+                gap: 15px;
+                font-size: 14px;
+            }
+        }
+
+        .construction-section {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 120px 20px 40px;
+            text-align: center;
+            color: white;
+        }
+
+        .construction-card {
+            max-width: 650px;
+            width: 90%;
+            padding: 50px 45px;
+            border-radius: 24px;
+
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+
+            background: rgba(15, 23, 42, 0.65);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+
+            box-shadow:
+                0 0 40px rgba(139, 92, 246, 0.2),
+                0 0 80px rgba(59, 130, 246, 0.15);
+
+            opacity: 0;
+            transform: translateY(40px) scale(0.95);
+
+            text-align: left;
+        }
+
+        .construction-card h2 {
+            margin-bottom: 20px;
+            font-size: 30px;
+            text-align: center;
+
+            background: linear-gradient(90deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .construction-card p {
+            color: #d1d5db;
+            line-height: 1.7;
+            font-size: 15px;
+            margin-bottom: 15px;
+        }
+
+        .show-construction {
+            animation: constructionReveal 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        @keyframes constructionReveal {
+            0% {
+                opacity: 0;
+                transform: translateY(40px) scale(0.95);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Hamburger button */
+        .menu-toggle {
+            display: none;
+            font-size: 28px;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* MOBILE VIEW */
+        @media (max-width:768px) {
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: rgba(15, 23, 42, 0.95);
+                backdrop-filter: blur(10px);
+
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.4s ease;
+            }
+
+            .nav-links.active {
+                max-height: 400px;
+                padding: 20px 0;
+            }
+        }
+
+        /* HAMBURGER MENU */
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 6px;
+        }
+
+        .menu-toggle span {
+            width: 28px;
+            height: 3px;
+            background: white;
+            border-radius: 5px;
+            transition: 0.4s;
+        }
+
+        /* Hamburger → X animation */
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+
+        /* MOBILE NAVBAR */
+
+        @media (max-width:768px) {
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-links li a {
+                display: block;
+                padding: 10px 20px;
+                border-radius: 8px;
+                transition: 0.3s;
+            }
+
+            /* Highlight on hover / tap */
+            .nav-links li a:hover {
+                background: rgba(59, 130, 246, 0.2);
+                color: #60a5fa;
+                box-shadow:
+                    0 0 10px rgba(59, 130, 246, 0.6),
+                    0 0 20px rgba(59, 130, 246, 0.4);
+            }
+
+            .nav-links {
+
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+
+                flex-direction: column;
+                align-items: center;
+                gap: 25px;
+
+                background: rgba(15, 23, 42, 0.6);
+                backdrop-filter: blur(15px);
+
+                border-top: none;
+                max-height: 0;
+                overflow: hidden;
+
+                transition: max-height 0.5s ease;
+            }
+
+            .nav-links.active {
+                max-height: 600px;
+                padding: 30px 0;
+            }
+
+            .nav-links {
+                overflow-y: auto;
+            }
+
+        }
+
+        @media (max-width:768px) {
+
+            .nav-links li {
+                width: 100%;
+                text-align: center;
+            }
+
+        }
+
+        .nav-links li a {
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .nav-links li a:hover {
+            color: #60a5fa;
+            text-shadow:
+                0 0 5px #3b82f6,
+                0 0 10px #3b82f6,
+                0 0 20px #3b82f6;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <nav class="navbar">
+        <div class="navbar-inner">
+
+            <div class="logo">Thamizhan Enterprises</div>
+
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="/">Login</a></li>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/dataentry">Data Entry</a></li>
+                <li><a href="/progress">Progress</a></li>
+                <li><a href="/log">Log</a></li>
+                <li><a href="/about">About Us</a></li>
+            </ul>
+
+        </div>
+    </nav>
+
+    <section class="construction-section">
+
+        <div class="construction-card">
+
+            <h2>🚆 Railway Data Management System</h2>
+
+            <p>
+                This project is a web-based railway data management platform developed
+                to monitor train routes, delays, and operational logs efficiently.
+                The system helps teams manage railway operations through a structured
+                and user-friendly dashboard.
+            </p>
+
+            <p>
+                Currently the system includes modules such as data entry, route tracking,
+                progress monitoring, and operational logs. More intelligent features and
+                analytics tools will be added as the project evolves.
+            </p>
+
+        </div>
+
+    </section>
+
+    <canvas id="starCanvas"></canvas>
+    <script>
+        const canvas = document.getElementById("starCanvas");
+        const ctx = canvas ? canvas.getContext("2d") : null;
+
+        if (canvas && ctx) {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            let stars = [];
+            let shootingStar = null;
+
+            class Star {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.radius = Math.random() * 1.5;
+                    this.speed = Math.random() * 0.5 + 0.2;
+                    this.alpha = Math.random();
+                    this.alphaChange = Math.random() * 0.02 + 0.005;
+                }
+
+                update() {
+                    this.y += this.speed;
+
+                    if (this.y > canvas.height) {
+                        this.y = 0;
+                        this.x = Math.random() * canvas.width;
+                    }
+
+                    this.alpha += this.alphaChange;
+                    if (this.alpha <= 0 || this.alpha >= 1) {
+                        this.alphaChange = -this.alphaChange;
+                    }
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(255,255,255,${this.alpha})`;
+                    ctx.fill();
+                }
+            }
+
+            class ShootingStar {
+                constructor() {
+                    const side = Math.floor(Math.random() * 2);
+
+                    if (side === 0) {
+                        this.x = Math.random() * canvas.width;
+                        this.y = 0;
+                    } else {
+                        this.x = 0;
+                        this.y = Math.random() * canvas.height;
+                    }
+
+                    this.length = Math.random() * 120 + 80;
+                    this.speed = Math.random() * 6 + 6;
+                    this.angle = Math.PI / 4;
+                    this.active = true;
+                }
+
+                update() {
+                    this.x += Math.cos(this.angle) * this.speed;
+                    this.y += Math.sin(this.angle) * this.speed;
+
+                    if (this.x > canvas.width || this.y > canvas.height) {
+                        this.active = false;
+                    }
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.moveTo(this.x, this.y);
+                    ctx.lineTo(
+                        this.x - Math.cos(this.angle) * this.length,
+                        this.y - Math.sin(this.angle) * this.length
+                    );
+
+                    ctx.strokeStyle = "white";
+                    ctx.lineWidth = 2;
+                    ctx.shadowBlur = 20;
+                    ctx.shadowColor = "white";
+                    ctx.stroke();
+                    ctx.shadowBlur = 0;
+                }
+            }
+
+            function init() {
+                stars = [];
+                for (let i = 0; i < 300; i++) {
+                    stars.push(new Star());
+                }
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                stars.forEach(star => {
+                    star.update();
+                    star.draw();
+                });
+
+                if (shootingStar) {
+                    shootingStar.update();
+                    shootingStar.draw();
+                    if (!shootingStar.active) shootingStar = null;
+                }
+
+                requestAnimationFrame(animate);
+            }
+
+            init();
+            animate();
+
+            function randomShootingStar() {
+                shootingStar = new ShootingStar();
+                const nextTime = Math.random() * 4000 + 4000; // 4–8 sec
+                setTimeout(randomShootingStar, nextTime);
+            }
+
+            randomShootingStar();
+
+            window.addEventListener("resize", (e) => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                init();
+            });
+        }
+
+        window.addEventListener("load", () => {
+            const card = document.querySelector(".construction-card");
+
+            setTimeout(() => {
+                card.classList.add("show-construction");
+            }, 400);
+        });
+
+        const menuToggle = document.getElementById("menuToggle");
+        const navLinks = document.getElementById("navLinks");
+
+        menuToggle.addEventListener("click", () => {
+
+            menuToggle.classList.toggle("active");
+            navLinks.classList.toggle("active");
+
+        });
+
+
+    </script>
+</body>
+
+</html>

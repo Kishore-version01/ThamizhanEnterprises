@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* Canvas Background */
+        #starCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at bottom,
+                    #1e1b4b 0%,
+                    #0f172a 50%,
+                    #020617 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.4);
+            /* semi transparent */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            /* Safari support */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+        }
+
+        .navbar-inner {
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links li a {
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 500;
+            font-size: 15px;
+            transition: 0.3s ease;
+            position: relative;
+        }
+
+        /* Hover underline animation */
+        .nav-links li a::after {
+            content: "";
+            position: absolute;
+            width: 0%;
+            height: 2px;
+            background: #3b82f6;
+            left: 0;
+            bottom: -5px;
+            transition: 0.3s;
+        }
+
+        .nav-links li a:hover::after {
+            width: 100%;
+        }
+
+        /* Push content below fixed navbar */
+        .main-content {
+            margin-top: 90px;
+        }
+
+        @media (max-width: 768px) {
+            .navbar-inner {
+                padding: 15px;
+            }
+
+            .nav-links {
+                gap: 15px;
+                font-size: 14px;
+            }
+        }
+
+        .team-section {
+            padding: 140px 20px 80px;
+            /* extra top space because navbar is fixed */
+            text-align: center;
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+
+        .team-title {
+            font-size: 42px;
+            margin-bottom: 60px;
+            letter-spacing: 1px;
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Subtle underline glow */
+        .team-title::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: -10px;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 3px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            border-radius: 10px;
+        }
+
+        .team-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .team-card {
+            width: 280px;
+            padding: 30px;
+            border-radius: 24px;
+            position: relative;
+            overflow: hidden;
+
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background: rgba(15, 23, 42, 0.6);
+
+            border: 1px solid rgba(139, 92, 246, 0.3);
+
+            box-shadow:
+                0 0 30px rgba(139, 92, 246, 0.15),
+                0 0 60px rgba(59, 130, 246, 0.1);
+
+            transition: all 0.4s ease;
+        }
+
+        .team-card::before {
+            content: "";
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle,
+                    rgba(139, 92, 246, 0.4),
+                    transparent 70%);
+            top: -60px;
+            right: -60px;
+            filter: blur(70px);
+            z-index: 0;
+        }
+
+        .team-card>* {
+            position: relative;
+            z-index: 1;
+        }
+
+        .team-card {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        .show-team-card {
+            animation: teamReveal 1s ease forwards;
+        }
+
+        @keyframes teamReveal {
+            0% {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .team-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .card-img {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid #9d4edd;
+        }
+
+        .card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .team-card h3 {
+            margin: 10px 0 5px;
+            font-size: 20px;
+        }
+
+        .role {
+            color: #9d4edd;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .desc {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-bottom: 15px;
+        }
+
+        .socials a {
+            text-decoration: none;
+            font-size: 18px;
+            margin: 0 8px;
+            transition: 0.3s;
+        }
+
+        .socials a:hover {
+            color: #9d4edd;
+            transform: scale(1.2);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .team-container {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        .socials a {
+            color: white;
+            font-size: 20px;
+            margin: 0 10px;
+            transition: 0.3s ease;
+        }
+
+        .socials a:hover {
+            color: #8b5cf6;
+            transform: scale(1.3);
+            text-shadow: 0 0 15px rgba(139, 92, 246, 0.8);
+        }
+
+        .social-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .social-buttons a {
+            padding: 8px 16px;
+            font-size: 13px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s ease;
+        }
+
+        .github-btn {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .github-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.8);
+        }
+
+        .linkedin-btn {
+            background: linear-gradient(135deg, #5b21b6, #8b5cf6);
+            color: white;
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
+        }
+
+        .linkedin-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px rgba(139, 92, 246, 0.8);
+        }
+
+        .footer {
+            background: #0f172a;
+            /* dark navy */
+            color: #cbd5e1;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 14px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .footer-content {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .footer .highlight {
+            color: #38bdf8;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        .footer .highlight:hover {
+            color: #ffffff;
+        }
+
+        .team-title {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        .show-team-title {
+            animation: teamTitleReveal 1.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        @keyframes teamTitleReveal {
+            0% {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Hamburger button */
+        .menu-toggle {
+            display: none;
+            font-size: 28px;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* MOBILE VIEW */
+        @media (max-width:768px) {
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: rgba(15, 23, 42, 0.95);
+                backdrop-filter: blur(10px);
+
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.4s ease;
+            }
+
+            .nav-links.active {
+                max-height: 400px;
+                padding: 20px 0;
+            }
+        }
+
+        /* HAMBURGER MENU */
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 6px;
+        }
+
+        .menu-toggle span {
+            width: 28px;
+            height: 3px;
+            background: white;
+            border-radius: 5px;
+            transition: 0.4s;
+        }
+
+        /* Hamburger → X animation */
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+
+        /* MOBILE NAVBAR */
+
+        @media (max-width:768px) {
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-links li a {
+                display: block;
+                padding: 10px 20px;
+                border-radius: 8px;
+                transition: 0.3s;
+            }
+
+            /* Highlight on hover / tap */
+            .nav-links li a:hover {
+                background: rgba(59, 130, 246, 0.2);
+                color: #60a5fa;
+                box-shadow:
+                    0 0 10px rgba(59, 130, 246, 0.6),
+                    0 0 20px rgba(59, 130, 246, 0.4);
+            }
+
+            .nav-links {
+
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+
+                flex-direction: column;
+                align-items: center;
+                gap: 25px;
+
+                background: rgba(15, 23, 42, 0.6);
+                backdrop-filter: blur(15px);
+
+                border-top: none;
+                max-height: 0;
+                overflow: hidden;
+
+                transition: max-height 0.5s ease;
+            }
+
+            .nav-links.active {
+                max-height: 600px;
+                padding: 30px 0;
+            }
+
+            .nav-links {
+                overflow-y: auto;
+            }
+
+        }
+
+        @media (max-width:768px) {
+
+            .nav-links li {
+                width: 100%;
+                text-align: center;
+            }
+
+        }
+
+        .nav-links li a {
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .nav-links li a:hover {
+            color: #60a5fa;
+            text-shadow:
+                0 0 5px #3b82f6,
+                0 0 10px #3b82f6,
+                0 0 20px #3b82f6;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-inner">
+
+            <div class="logo">Thamizhan Enterprises</div>
+
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="/">Login</a></li>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/dataentry">Data Entry</a></li>
+                <li><a href="/progress">Progress</a></li>
+                <li><a href="/log">Log</a></li>
+                <li><a href="/about">About Us</a></li>
+            </ul>
+
+        </div>
+    </nav>
+
+    <section class="team-section">
+        <h2 class="team-title">Meet Our Team</h2>
+
+        <div class="team-container">
+
+            <div class="team-card">
+                <div class="card-img">
+                    <img src="/static/img/no-pfp.jpeg" alt="Team Member">
+                </div>
+                <h3>K.Kishore</h3>
+                <p class="role">Team Head</p>
+                <p class="desc">Guiding the team with focus and determination.
+                    Building success through collaboration and trust.</p>
+                <div class="social-buttons">
+                    <a href="https://github.com/yourusername" target="_blank" class="github-btn">
+                        GitHub
+                    </a>
+                    <a href="https://linkedin.com/in/yourusername" target="_blank" class="linkedin-btn">
+                        LinkedIn
+                    </a>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="card-img">
+                    <img src="/static/img/no-pfp.jpeg" alt="Team Member">
+                </div>
+                <h3>Nithya Shree</h3>
+                <p class="role">Coding Lead</p>
+                <p class="desc">Head of development, focused on performance and precision.
+                    Turning complex problems into elegant solutions.</p>
+                <div class="social-buttons">
+                    <a href="https://github.com/yourusername" target="_blank" class="github-btn">
+                        GitHub
+                    </a>
+                    <a href="https://linkedin.com/in/yourusername" target="_blank" class="linkedin-btn">
+                        LinkedIn
+                    </a>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="card-img">
+                    <img src="/static/img/no-pfp.jpeg" alt="Team Member">
+                </div>
+                <h3>Siddhanth E</h3>
+                <p class="role"> Non-Coding Lead </p>
+                <p class="desc">Leading beyond code with strategy and decision-making.
+                    Keeping the team aligned, focused, and motivated.</p>
+                <div class="social-buttons">
+                    <a href="https://github.com/yourusername" target="_blank" class="github-btn">
+                        GitHub
+                    </a>
+                    <a href="https://linkedin.com/in/yourusername" target="_blank" class="linkedin-btn">
+                        LinkedIn
+                    </a>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="card-img">
+                    <img src="/static/img/no-pfp.jpeg" alt="Team Member">
+                </div>
+                <h3>Mrithika Shri</h3>
+                <p class="role">CG Member</p>
+                <p class="desc">Turning logic into functional and impactful features.
+                    Committed to performance, precision, and teamwork.</p>
+                <div class="social-buttons">
+                    <a href="https://github.com/yourusername" target="_blank" class="github-btn">
+                        GitHub
+                    </a>
+                    <a href="https://linkedin.com/in/yourusername" target="_blank" class="linkedin-btn">
+                        LinkedIn
+                    </a>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="card-img">
+                    <img src="/static/img/no-pfp.jpeg" alt="Team Member">
+                </div>
+                <h3>Logesh J</h3>
+                <p class="role">CG member</p>
+                <p class="desc">Dedicated developer contributing to innovative solutions.
+                    Focused on writing clean, efficient, and code.</p>
+                <div class="social-buttons">
+                    <a href="https://github.com/yourusername" target="_blank" class="github-btn">
+                        GitHub
+                    </a>
+                    <a href="https://linkedin.com/in/yourusername" target="_blank" class="linkedin-btn">
+                        LinkedIn
+                    </a>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="card-img">
+                    <img src="/static/img/no-pfp.jpeg" alt="Team Member">
+                </div>
+                <h3>Adwaith jayakumar</h3>
+                <p class="role">NCG member</p>
+                <p class="desc">Supporting the team with organization and clear communication.
+                    Helping ideas move forward with focus.</p>
+                <div class="social-buttons">
+                    <a href="https://github.com/yourusername" target="_blank" class="github-btn">
+                        GitHub
+                    </a>
+                    <a href="https://linkedin.com/in/yourusername" target="_blank" class="linkedin-btn">
+                        LinkedIn
+                    </a>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="card-img">
+                    <img src="/static/img/no-pfp.jpeg" alt="Team Member">
+                </div>
+                <h3>L.Lakshman</h3>
+                <p class="role">NCG member</p>
+                <p class="desc">Playing a key role beyond development tasks.
+                    Bringing clarity, coordination, and teamwork to every project.</p>
+                <div class="social-buttons">
+                    <a href="https://github.com/yourusername" target="_blank" class="github-btn">
+                        GitHub
+                    </a>
+                    <a href="https://linkedin.com/in/yourusername" target="_blank" class="linkedin-btn">
+                        LinkedIn
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>© 2026 Lakshman Mukesh. All rights reserved.</p>
+            <p>Designed & Developed by <span class="highlight">L.Lakshman Mukesh</span></p>
+        </div>
+    </footer>
+
+    <canvas id="starCanvas"></canvas>
+    <script>
+        const canvas = document.getElementById("starCanvas");
+        const ctx = canvas ? canvas.getContext("2d") : null;
+
+        if (canvas && ctx) {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            let stars = [];
+            let shootingStar = null;
+
+            class Star {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.radius = Math.random() * 1.5;
+                    this.speed = Math.random() * 0.5 + 0.2;
+                    this.alpha = Math.random();
+                    this.alphaChange = Math.random() * 0.02 + 0.005;
+                }
+
+                update() {
+                    this.y += this.speed;
+
+                    if (this.y > canvas.height) {
+                        this.y = 0;
+                        this.x = Math.random() * canvas.width;
+                    }
+
+                    this.alpha += this.alphaChange;
+                    if (this.alpha <= 0 || this.alpha >= 1) {
+                        this.alphaChange = -this.alphaChange;
+                    }
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(255,255,255,${this.alpha})`;
+                    ctx.fill();
+                }
+            }
+
+            class ShootingStar {
+                constructor() {
+                    const side = Math.floor(Math.random() * 2);
+
+                    if (side === 0) {
+                        this.x = Math.random() * canvas.width;
+                        this.y = 0;
+                    } else {
+                        this.x = 0;
+                        this.y = Math.random() * canvas.height;
+                    }
+
+                    this.length = Math.random() * 120 + 80;
+                    this.speed = Math.random() * 6 + 6;
+                    this.angle = Math.PI / 4;
+                    this.active = true;
+                }
+
+                update() {
+                    this.x += Math.cos(this.angle) * this.speed;
+                    this.y += Math.sin(this.angle) * this.speed;
+
+                    if (this.x > canvas.width || this.y > canvas.height) {
+                        this.active = false;
+                    }
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.moveTo(this.x, this.y);
+                    ctx.lineTo(
+                        this.x - Math.cos(this.angle) * this.length,
+                        this.y - Math.sin(this.angle) * this.length
+                    );
+
+                    ctx.strokeStyle = "white";
+                    ctx.lineWidth = 2;
+                    ctx.shadowBlur = 20;
+                    ctx.shadowColor = "white";
+                    ctx.stroke();
+                    ctx.shadowBlur = 0;
+                }
+            }
+
+            function init() {
+                stars = [];
+                for (let i = 0; i < 300; i++) {
+                    stars.push(new Star());
+                }
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                stars.forEach(star => {
+                    star.update();
+                    star.draw();
+                });
+
+                if (shootingStar) {
+                    shootingStar.update();
+                    shootingStar.draw();
+                    if (!shootingStar.active) shootingStar = null;
+                }
+
+                requestAnimationFrame(animate);
+            }
+
+            init();
+            animate();
+
+            function randomShootingStar() {
+                shootingStar = new ShootingStar();
+                const nextTime = Math.random() * 4000 + 4000; // 4–8 sec
+                setTimeout(randomShootingStar, nextTime);
+            }
+
+            randomShootingStar();
+
+            window.addEventListener("resize", () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                init();
+            });
+        }
+
+
+
+        window.addEventListener("load", () => {
+            const cards = document.querySelectorAll(".team-card");
+
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.add("show-team-card");
+                }, 300 + index * 200);
+            });
+        });
+
+
+
+        window.addEventListener("load", () => {
+            const title = document.querySelector(".team-title");
+
+            setTimeout(() => {
+                title.classList.add("show-team-title");
+            }, 300);
+        });
+
+
+        const menuToggle = document.getElementById("menuToggle");
+        const navLinks = document.getElementById("navLinks");
+
+        menuToggle.addEventListener("click", () => {
+
+            menuToggle.classList.toggle("active");
+            navLinks.classList.toggle("active");
+
+        });
+    </script>
+</body>
+
+</html>

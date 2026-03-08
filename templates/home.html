@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* Canvas Background */
+        #starCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at bottom,
+                    #1e1b4b 0%,
+                    #0f172a 50%,
+                    #020617 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.4);
+            /* semi transparent */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            /* Safari support */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+        }
+
+        .navbar-inner {
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links li a {
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 500;
+            font-size: 15px;
+            transition: 0.3s ease;
+            position: relative;
+        }
+
+        /* Hover underline animation */
+        .nav-links li a::after {
+            content: "";
+            position: absolute;
+            width: 0%;
+            height: 2px;
+            background: #3b82f6;
+            left: 0;
+            bottom: -5px;
+            transition: 0.3s;
+        }
+
+        .nav-links li a:hover::after {
+            width: 100%;
+        }
+
+        /* Push content below fixed navbar */
+        .main-content {
+            margin-top: 90px;
+        }
+
+        @media (max-width: 768px) {
+            .navbar-inner {
+                padding: 15px;
+            }
+
+            .nav-links {
+                gap: 15px;
+                font-size: 14px;
+            }
+        }
+
+        /* ================= HERO SECTION ================= */
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            color: white;
+            position: relative;
+        }
+
+        /* Main Title */
+        .hero-title {
+            font-size: 64px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            line-height: 1.2;
+            animation: fadeSlide 1.5s ease forwards;
+            opacity: 0;
+        }
+
+        /* Light Purple Text - "Let's Build a" */
+        .light-text {
+            display: block;
+            color: #ac5fff;
+            /* Soft Light Purple */
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        /* Gradient Highlight - "Better India" */
+        .highlight-text {
+            display: block;
+            background: linear-gradient(90deg, #3b82f6, #60a5fa, #93c5fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+        }
+
+        /* Subtle Glow Under Highlight */
+        .highlight-text::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: -8px;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 8px;
+            background: rgba(59, 130, 246, 0.5);
+            filter: blur(10px);
+            border-radius: 50px;
+            z-index: -1;
+        }
+
+        /* Fade + Slide Animation */
+        @keyframes fadeSlide {
+            0% {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 1024px) {
+            .hero-title {
+                font-size: 48px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 42px;
+                line-height: 1.3;
+            }
+        }
+
+        .highlight-text::after {
+            width: 80%;
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 34px;
+                line-height: 1.3;
+            }
+        }
+
+        .light-text {
+            margin-bottom: 5px;
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            /* center horizontally */
+            align-items: center;
+            /* center vertically */
+            text-align: center;
+            /* center text */
+            padding: 0 20px;
+            color: white;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .scroll-indicator {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .hero-subtitle {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #d1d5db;
+            line-height: 1.6;
+            animation: fadeSlide 2s ease forwards;
+            opacity: 0;
+        }
+
+        /* Buttons */
+        .hero-buttons {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            /* centers buttons horizontally */
+            align-items: center;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: 0.3s ease;
+            font-size: 15px;
+        }
+
+        .primary-btn {
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+            color: white;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.6);
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.9);
+        }
+
+        .secondary-btn {
+            border: 1px solid #3b82f6;
+            color: #3b82f6;
+        }
+
+        .secondary-btn:hover {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .hero-title {
+            animation: fadeSlide 1.5s ease forwards;
+        }
+
+        .hero-subtitle {
+            animation-delay: 0.5s;
+        }
+
+        .hero-buttons {
+            animation: fadeSlide 2.5s ease forwards;
+            opacity: 0;
+        }
+
+        /* Floating Logout Button */
+        .logout-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid #3b82f6;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            z-index: 9999;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .logout-float:hover {
+            background: #3b82f6;
+            transform: translateY(-5px);
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.6);
+            color: white;
+        }
+
+        .logout-float svg {
+            transition: transform 0.3s ease;
+        }
+
+        .logout-float:hover svg {
+            transform: translateX(3px);
+        }
+
+        /* Hide text on very small screens to keep it as a circular icon */
+        @media (max-width: 480px) {
+            .logout-float span {
+                display: none;
+            }
+
+            .logout-float {
+                padding: 15px;
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+
+        /* Hamburger button */
+        .menu-toggle {
+            display: none;
+            font-size: 28px;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* MOBILE VIEW */
+        @media (max-width:768px) {
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: rgba(15, 23, 42, 0.95);
+                backdrop-filter: blur(10px);
+
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.4s ease;
+            }
+
+            .nav-links.active {
+                max-height: 400px;
+                padding: 20px 0;
+            }
+        }
+
+        /* HAMBURGER MENU */
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 6px;
+        }
+
+        .menu-toggle span {
+            width: 28px;
+            height: 3px;
+            background: white;
+            border-radius: 5px;
+            transition: 0.4s;
+        }
+
+        /* Hamburger → X animation */
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+
+        /* MOBILE NAVBAR */
+
+        @media (max-width:768px) {
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-links li a {
+                display: block;
+                padding: 10px 20px;
+                border-radius: 8px;
+                transition: 0.3s;
+            }
+
+            /* Highlight on hover / tap */
+            .nav-links li a:hover {
+                background: rgba(59, 130, 246, 0.2);
+                color: #60a5fa;
+                box-shadow:
+                    0 0 10px rgba(59, 130, 246, 0.6),
+                    0 0 20px rgba(59, 130, 246, 0.4);
+            }
+
+            .nav-links {
+
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+
+                flex-direction: column;
+                align-items: center;
+                gap: 25px;
+
+                background: rgba(15, 23, 42, 0.6);
+                backdrop-filter: blur(15px);
+
+                border-top: none;
+                max-height: 0;
+                overflow: hidden;
+
+                transition: max-height 0.5s ease;
+            }
+
+            .nav-links.active {
+                max-height: 600px;
+                padding: 30px 0;
+            }
+
+            .nav-links {
+                overflow-y: auto;
+            }
+
+        }
+
+        @media (max-width:768px) {
+
+            .nav-links li {
+                width: 100%;
+                text-align: center;
+            }
+
+        }
+
+        .nav-links li a {
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .nav-links li a:hover {
+            color: #60a5fa;
+            text-shadow:
+                0 0 5px #3b82f6,
+                0 0 10px #3b82f6,
+                0 0 20px #3b82f6;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <nav class="navbar">
+        <div class="navbar-inner">
+
+            <div class="logo">Thamizhan Enterprises</div>
+
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="/">Login</a></li>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/dataentry">Data Entry</a></li>
+                <li><a href="/progress">Progress</a></li>
+                <li><a href="/log">Log</a></li>
+                <li><a href="/about">About Us</a></li>
+            </ul>
+
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="light-text">Let's Build a</span>
+                <span class="highlight-text">Better India</span>
+            </h1>
+
+            <p class="hero-subtitle">
+                Empowering digital growth through data, progress tracking, and innovation.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="/about" class="btn secondary-btn">Learn More</a>
+                <a href="/progress" class="btn secondary-btn">Vision</a>
+            </div>
+        </div>
+    </section>
+
+    <a href="/" class="logout-float" id="logoutBtn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg>
+        <span>Logout</span>
+    </a>
+
+    <canvas id="starCanvas"></canvas>
+    <script>
+        const canvas = document.getElementById("starCanvas");
+        const ctx = canvas ? canvas.getContext("2d") : null;
+
+        if (canvas && ctx) {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            let stars = [];
+            let shootingStar = null;
+
+            class Star {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.radius = Math.random() * 1.5;
+                    this.speed = Math.random() * 0.5 + 0.2;
+                    this.alpha = Math.random();
+                    this.alphaChange = Math.random() * 0.02 + 0.005;
+                }
+
+                update() {
+                    this.y += this.speed;
+
+                    if (this.y > canvas.height) {
+                        this.y = 0;
+                        this.x = Math.random() * canvas.width;
+                    }
+
+                    this.alpha += this.alphaChange;
+                    if (this.alpha <= 0 || this.alpha >= 1) {
+                        this.alphaChange = -this.alphaChange;
+                    }
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(255,255,255,${this.alpha})`;
+                    ctx.fill();
+                }
+            }
+
+            class ShootingStar {
+                constructor() {
+                    const side = Math.floor(Math.random() * 2);
+
+                    if (side === 0) {
+                        this.x = Math.random() * canvas.width;
+                        this.y = 0;
+                    } else {
+                        this.x = 0;
+                        this.y = Math.random() * canvas.height;
+                    }
+
+                    this.length = Math.random() * 120 + 80;
+                    this.speed = Math.random() * 6 + 6;
+                    this.angle = Math.PI / 4;
+                    this.active = true;
+                }
+
+                update() {
+                    this.x += Math.cos(this.angle) * this.speed;
+                    this.y += Math.sin(this.angle) * this.speed;
+
+                    if (this.x > canvas.width || this.y > canvas.height) {
+                        this.active = false;
+                    }
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.moveTo(this.x, this.y);
+                    ctx.lineTo(
+                        this.x - Math.cos(this.angle) * this.length,
+                        this.y - Math.sin(this.angle) * this.length
+                    );
+
+                    ctx.strokeStyle = "white";
+                    ctx.lineWidth = 2;
+                    ctx.shadowBlur = 20;
+                    ctx.shadowColor = "white";
+                    ctx.stroke();
+                    ctx.shadowBlur = 0;
+                }
+            }
+
+            function init() {
+                stars = [];
+                for (let i = 0; i < 300; i++) {
+                    stars.push(new Star());
+                }
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                stars.forEach(star => {
+                    star.update();
+                    star.draw();
+                });
+
+                if (shootingStar) {
+                    shootingStar.update();
+                    shootingStar.draw();
+                    if (!shootingStar.active) shootingStar = null;
+                }
+
+                requestAnimationFrame(animate);
+            }
+
+            init();
+            animate();
+
+            function randomShootingStar() {
+                shootingStar = new ShootingStar();
+                const nextTime = Math.random() * 4000 + 4000; // 4–8 sec
+                setTimeout(randomShootingStar, nextTime);
+            }
+
+            randomShootingStar();
+
+            window.addEventListener("resize", () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                init();
+            });
+        }
+
+
+        document.getElementById('logoutBtn').addEventListener('click', function (e) {
+            if (!confirm("Are you sure you want to logout of the system?")) {
+                e.preventDefault();
+            }
+        });
+
+
+        const menuToggle = document.getElementById("menuToggle");
+        const navLinks = document.getElementById("navLinks");
+
+        menuToggle.addEventListener("click", () => {
+
+            menuToggle.classList.toggle("active");
+            navLinks.classList.toggle("active");
+
+        });
+    </script>
+
+
+</body>
+
+</html>

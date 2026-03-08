@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thamizhan.Corps Access</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+		* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+		font-family: 'Orbitron', sans-serif;
+		}
+
+		body {
+		margin: 0;
+		height: 100vh;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background: black;
+		overflow: hidden;
+		perspective: 1000px;
+		}
+
+		/* Same Galaxy Background */
+		#starCanvas {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: -1;
+
+		}
+
+		#starCanvas {
+		pointer-events: none;
+		}
+
+		.container {
+		width: 100%;
+		height: 100vh;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		color: white;
+		position: relative;
+		}
+
+		.main-title {
+		margin-bottom: 30px;
+		transform: translateY(-30px);
+		}
+
+		.main-title span {
+		color: #00f7ff;
+		text-shadow: 0 0 10px #00f7ff,
+		0 0 20px #00f7ff,
+		0 0 40px #00f7ff;
+		}
+
+		.login-card {
+		width: 90%;
+		max-width: 380px;
+		padding: 25px;
+		border-radius: 20px;
+		background: rgba(255, 255, 255, 0.05);
+		backdrop-filter: blur(20px);
+		box-shadow: 0 0 40px rgba(0, 247, 255, 0.3);
+		transform-style: preserve-3d;
+		will-change: transform;
+		transition: transform 0.2s ease;
+		}
+
+		/* Toggle Buttons */
+		.toggle-buttons {
+		display: flex;
+		margin-bottom: 20px;
+		}
+
+		.toggle-buttons button {
+		flex: 1;
+		padding: 10px;
+		border: none;
+		cursor: pointer;
+		background: #222;
+		color: white;
+		transition: 0.3s;
+		}
+
+		.toggle-buttons .active {
+		background: #00f7ff;
+		color: black;
+		}
+
+		/* Forms */
+		.form-wrapper {
+		position: relative;
+		height: 200px;
+		}
+
+		.form {
+		position: absolute;
+		width: 100%;
+		opacity: 0;
+		transform: translateX(50px);
+		transition: 0.4s ease;
+		display: flex;
+		flex-direction: column;
+		gap: 15px;
+		height: 100%;
+		pointer-events: none;
+		}
+
+		#loginForm .action-btn {
+		margin-top: auto;
+		}
+
+		.form.active {
+		opacity: 1;
+		transform: translateX(0);
+		pointer-events: auto;
+		}
+
+		.form input {
+		padding: 12px;
+		border-radius: 8px;
+		border: none;
+		outline: none;
+		}
+
+		.action-btn {
+		padding: 12px;
+		border-radius: 8px;
+		border: none;
+		background: linear-gradient(45deg, #00f7ff, #0072ff);
+		font-weight: bold;
+		cursor: pointer;
+		transition: 0.3s;
+		}
+
+		.action-btn:hover {
+		transform: scale(1.05);
+		}
+
+		/* Particle */
+		.particle {
+		position: absolute;
+		width: 6px;
+		height: 6px;
+		background: #00ff9d;
+		border-radius: 50%;
+		pointer-events: none;
+		animation: explode 800ms ease-out forwards;
+		}
+
+		@keyframes explode {
+		to {
+		transform: translate(var(--x), var(--y));
+		opacity: 0;
+		}
+		}
+
+
+		/* MAKING this RESPOSIVE */
+
+		/* 📱 Mobile Optimization */
+		@media (max-width: 600px) {
+
+		body {
+		padding: 20px;
+		align-items: center;
+		justify-content: center;
+		}
+
+		.main-title {
+		font-size: 22px;
+		text-align: center;
+		padding: 0 10px;
+		}
+
+		.login-card {
+		width: 85%;
+		max-width: 320px;
+		padding: 20px;
+		margin-top: 15px;
+		}
+
+		.form-wrapper {
+		height: auto;
+		}
+
+		.form-wrapper {
+		position: relative;
+		min-height: 240px;
+		/* enough space for both forms */
+		}
+
+		.form input {
+		font-size: 14px;
+		padding: 10px;
+		}
+
+		.action-btn {
+		padding: 10px;
+		font-size: 14px;
+		}
+
+		.toggle-buttons button {
+		font-size: 14px;
+		padding: 8px;
+		}
+		}
+
+		.form {
+		justify-content: flex-start;
+		}
+
+		.form .action-btn {
+		margin-top: auto;
+		}
+
+		.action-btn {
+		position: relative;
+		z-index: 2;
+		}
+
+
+		/* 🚆 Loader Screen */
+		#loader {
+		position: fixed;
+		width: 100%;
+		height: 100%;
+		background: #020617;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		z-index: 9999;
+		color: white;
+		transition: opacity 0.8s ease, visibility 0.8s ease;
+		}
+
+		/* Spinning Train Wheel */
+		.wheel {
+		width: 18vw;
+		height: 18vw;
+		max-width: 70px;
+		max-height: 70px;
+		min-width: 45px;
+		min-height: 45px;
+
+		border: 5px solid #00f7ff;
+		border-top: 5px solid transparent;
+		border-radius: 50%;
+		margin-bottom: 20px;
+		animation: spinWheel 1s linear infinite;
+		box-shadow: 0 0 15px #00f7ff;
+		}
+
+		@keyframes spinWheel {
+		to {
+		transform: rotate(360deg);
+		}
+		}
+
+		.loader-title {
+		font-size: clamp(20px, 6vw, 30px);
+		margin-bottom: 20px;
+		text-align: center;
+		padding: 0 15px;
+
+		color: #00f7ff;
+		text-shadow: 0 0 10px #00f7ff,
+		0 0 20px #00f7ff;
+		}
+
+		.loading-bar {
+		width: 70vw;
+		max-width: 240px;
+		min-width: 180px;
+		height: 5px;
+
+		background: rgba(255, 255, 255, 0.1);
+		border-radius: 10px;
+		overflow: hidden;
+		margin-bottom: 12px;
+		}
+
+		.loading-fill {
+		height: 100%;
+		width: 0%;
+		background: linear-gradient(90deg, #00f7ff, #0072ff);
+		transition: width 0.2s ease;
+		}
+
+		.loading-text {
+		font-size: clamp(12px, 3.5vw, 14px);
+		text-align: center;
+		padding: 0 10px;
+		color: #aaa;
+		}
+
+		/* Hide Loader */
+		.loader-hidden {
+		opacity: 0;
+		visibility: hidden;
+		}
+
+
+		@media (max-width: 480px) {
+
+		#loader {
+		padding: 20px;
+		}
+
+		.wheel {
+		margin-bottom: 18px;
+		}
+
+		.loader-title {
+		margin-bottom: 18px;
+		}
+		}
+	</style>
+</head>
+
+<body>
+    <!-- 🚆 Advanced Loading Screen -->
+    <div id="loader">
+        <div class="wheel"></div>
+
+        <h1 class="loader-title">Thamizhan Enterprises</h1>
+
+        <div class="loading-bar">
+            <div class="loading-fill"></div>
+        </div>
+
+        <p class="loading-text">
+            Initializing Control System... <span id="loadingPercent">0%</span>
+        </p>
+    </div>
+
+    <div class="container">
+
+        <h1 class="main-title">
+            Welcome to <span>Thamizhan Enterprises</span>
+        </h1>
+
+        <div class="login-card" id="loginCard">
+
+            <div class="toggle-buttons">
+                <button type="button" id="loginToggle" class="active">Login</button>
+                <button type="button" id="signupToggle">Sign Up</button>
+            </div>
+
+            <div class="form-wrapper">
+
+                <!-- LOGIN -->
+             <form id="loginForm" class="form active" method="POST"  action="/login">
+                <input type="text" name="username" id="userId" placeholder="User ID" required>
+                <input type="password" name="password" id="password" placeholder="Password" required>
+                <button type="submit" id="loginBtn" class="action-btn">Enter System</button>
+             </form>
+
+                <!-- SIGNUP -->
+                <form id="signupForm" class="form" onsubmit="event.preventDefault();">
+                    <input type="text" name="fullname" placeholder="Full Name">
+                    <input type="email" name="email" placeholder="Email">
+                    <input type="password" name="password" placeholder="Create Password">
+                    <button type="submit" class="action-btn">Create Account</button>
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+    <canvas id="starCanvas"></canvas>
+    <script>
+
+        // ===============================
+        // FORM SWITCHING & AUTH LOGIC
+		// ===============================
+		const loginToggle = document.getElementById('loginToggle');
+		const signupToggle = document.getElementById('signupToggle');
+		const loginForm = document.getElementById('loginForm');
+		const signupForm = document.getElementById('signupForm');
+
+		// Switch to Sign Up
+		signupToggle.addEventListener('click', () => {
+		loginToggle.classList.remove('active');
+		signupToggle.classList.add('active');
+		loginForm.classList.remove('active');
+		signupForm.classList.add('active');
+		});
+
+		// Switch to Login
+		loginToggle.addEventListener('click', () => {
+		signupToggle.classList.remove('active');
+		loginToggle.classList.add('active');
+		signupForm.classList.remove('active');
+		loginForm.classList.add('active');
+		});
+
+		// ===============================
+		// REFINED STRICT LOGIN LOGIC
+		// ===============================
+		const loginBtn = document.getElementById('loginBtn');
+
+
+
+
+		// Handle Signup Button (Direct access as requested)
+		signupForm.addEventListener('submit', (e) => {
+		e.preventDefault();
+
+		const signupBtn = signupForm.querySelector('.action-btn');
+		createParticles(signupBtn);
+
+		setTimeout(() => {
+		window.location.href = "/home"; // Redirects to home
+		}, 600);
+		});
+
+		// Optional: Particle Burst Effect for Buttons
+		function createParticles(element) {
+		const rect = element.getBoundingClientRect();
+		for (let i = 0; i < 10; i++) {
+                const p = document.createElement('div');
+                p.classList.add('particle');
+                const x = (Math.random() - 0.5) * 100;
+                const y = (Math.random() - 0.5) * 100;
+                p.style.setProperty('--x', `${x}px`);
+                p.style.setProperty('--y', `${y}px`);
+                p.style.left = `${rect.left + rect.width / 2}px`;
+                p.style.top = `${rect.top + rect.height / 2}px`;
+                document.body.appendChild(p);
+                setTimeout(() => p.remove(), 800);
+            }
+        }
+
+
+
+        // ===============================
+        // STAR BACKGROUND
+        // ===============================
+        const canvas = document.getElementById("starCanvas");
+        const ctx = canvas ? canvas.getContext("2d") : null;
+
+        if (canvas && ctx) {
+
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            let stars = [];
+            let shootingStar = null;
+
+            class Star {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.radius = Math.random() * 1.5;
+                    this.speed = Math.random() * 0.5 + 0.2;
+                    this.alpha = Math.random();
+                    this.alphaChange = Math.random() * 0.02 + 0.005;
+                }
+
+                update() {
+                    this.y += this.speed;
+
+                    if (this.y > canvas.height) {
+                        this.y = 0;
+                        this.x = Math.random() * canvas.width;
+                    }
+
+                    this.alpha += this.alphaChange;
+                    if (this.alpha <= 0 || this.alpha >= 1) {
+                        this.alphaChange = -this.alphaChange;
+                    }
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(255,255,255,${this.alpha})`;
+                    ctx.fill();
+                }
+            }
+
+            class ShootingStar {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = 0;
+                    this.length = Math.random() * 120 + 80;
+                    this.speed = Math.random() * 6 + 6;
+                    this.angle = Math.PI / 4;
+                    this.active = true;
+                }
+
+                update() {
+                    this.x += Math.cos(this.angle) * this.speed;
+                    this.y += Math.sin(this.angle) * this.speed;
+
+                    if (this.x > canvas.width || this.y > canvas.height) {
+                        this.active = false;
+                    }
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.moveTo(this.x, this.y);
+                    ctx.lineTo(
+                        this.x - Math.cos(this.angle) * this.length,
+                        this.y - Math.sin(this.angle) * this.length
+                    );
+
+                    ctx.strokeStyle = "white";
+                    ctx.lineWidth = 2;
+                    ctx.shadowBlur = 20;
+                    ctx.shadowColor = "white";
+                    ctx.stroke();
+                    ctx.shadowBlur = 0;
+                }
+            }
+
+            function init() {
+                stars = [];
+                for (let i = 0; i < 300; i++) {
+                    stars.push(new Star());
+                }
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                stars.forEach(star => {
+                    star.update();
+                    star.draw();
+                });
+
+                if (shootingStar) {
+                    shootingStar.update();
+                    shootingStar.draw();
+                    if (!shootingStar.active) shootingStar = null;
+                }
+
+                requestAnimationFrame(animate);
+            }
+
+            init();
+            animate();
+
+            function randomShootingStar() {
+                shootingStar = new ShootingStar();
+                setTimeout(randomShootingStar, Math.random() * 4000 + 4000);
+            }
+
+            randomShootingStar();
+
+            window.addEventListener("resize", () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                init();
+            });
+        }
+
+
+        // ===============================
+        // LOADER WITH PERCENTAGE
+        // ===============================
+        window.addEventListener("load", () => {
+
+            const loader = document.getElementById("loader");
+            const percentText = document.getElementById("loadingPercent");
+            const progressBar = document.querySelector(".loading-fill");
+
+            let percent = 0;
+
+            const interval = setInterval(() => {
+                percent++;
+                percentText.textContent = percent + "%";
+                progressBar.style.width = percent + "%";
+
+                if (percent >= 100) {
+                    clearInterval(interval);
+
+                    setTimeout(() => {
+                        loader.classList.add("loader-hidden");
+                    }, 500);
+                }
+
+            }, 20);
+        });
+
+    </script>
+</body>
+
+</html>
