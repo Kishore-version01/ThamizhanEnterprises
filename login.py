@@ -17,19 +17,13 @@ if not SUPABASE_URL or not SUPABASE_KEY:
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 
-class User:
-    def __init__(self, id):
-        self.id = id
-
 class loginManager:
         def authenticate(self, username, password):
               response = supabase.table("Employee_details").select("*").eq("Email", username).eq("Password", password).execute()
               if response.data:
-                  user = User(username)
-                  login_user(user)
-                  return redirect("/home")
+                  return True
               else:
-                    return "Invalid login"
+                    return False
 
 def logout():
     logout_user()
