@@ -22,10 +22,7 @@ def load_user(user_id):
 def home():
     return "Welcome!"
 
-@app.route("/")
-def logout():
-    logout_user()
-    return "Logged out"
+
 
 #homepage
 @app.route("/")
@@ -53,10 +50,12 @@ def login():
             print("Login failed")
             return render_template("index.html", error="Invalid credentials")
 
-#home dashboard
-@app.route("/home")
-def home():
-    return render_template("home.html")
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return "Logged out"
 
 #about page
 @app.route("/about")
