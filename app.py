@@ -1,5 +1,6 @@
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 import os
+from flask_login import LoginManager, login_user, login_required, logout_user, UserMixin
 from login import loginManager
 
 app=Flask(__name__)
@@ -8,6 +9,8 @@ app=Flask(__name__)
 @app.route("/")
 def index():
     return render_template("index.html")
+
+
 
 #loginpage
 @app.route("/login", methods=['GET', 'POST'])
@@ -20,6 +23,8 @@ def login():
         password = request.form.get('password')
         login_manager = loginManager()
         if login_manager.authenticate(username, password):
+            user = username
+            login_user(user, remember=True)
             print("Login successful")
             return redirect(url_for('home'))
         else:

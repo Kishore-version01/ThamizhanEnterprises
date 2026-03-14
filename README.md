@@ -9,8 +9,12 @@ COMMITS: 16-21
        added login, fixed bugs.
 
 
-       # RESET OCCURED
+RESET OCCURED
 
 COMMIT: 8
 
      addded delay entry backend
+
+COMMIT: 9
+     added standard login information storage code
+     
