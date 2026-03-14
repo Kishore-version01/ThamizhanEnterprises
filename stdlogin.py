@@ -4,7 +4,6 @@ from flask_login import UserMixin
 import os
 
 
-app = Flask(__name__)
 app.secret_key = os.getenv("SUPA_KEY")
 
 login_manager = LoginManager()
