@@ -1,8 +1,8 @@
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 import os
 from flask_login import LoginManager, login_user, login_required, logout_user, UserMixin
-from login import loginManager, User
-
+from login import loginManager
+from stdlogin import User
 app=Flask(__name__)
 
 #homepage
