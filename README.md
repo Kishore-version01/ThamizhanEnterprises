@@ -18,3 +18,5 @@ COMMIT: 8
 COMMIT: 9
      added standard login information storage code
      
+COMMIT: 10
+     fixed deployment bug
