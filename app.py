@@ -5,6 +5,8 @@ from login import loginManager
 from stdlogin import User
 app=Flask(__name__)
 
+app.secret_key = os.getenv("SUPA_KEY")
+
 #homepage
 @app.route("/")
 def index():
