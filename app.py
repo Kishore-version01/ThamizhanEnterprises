@@ -5,7 +5,7 @@ from login import loginManager
 from stdlogin import User
 app=Flask(__name__)
 
-app.secret_key = os.getenv("SUPA_KEY")
+app.secret_key = os.getenv("SUPABASE_KEY")
 
 
 login_manager = LoginManager()
