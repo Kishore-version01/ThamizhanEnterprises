@@ -7,3 +7,10 @@ COMMITS: 2-9
 COMMITS: 16-21
 
        added login, fixed bugs.
+
+
+       # RESET OCCURED
+
+COMMIT: 8
+
+     addded delay entry backend

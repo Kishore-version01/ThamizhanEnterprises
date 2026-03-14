@@ -40,5 +40,30 @@ class Delayentry:
                 "actual_dep":dep_timings[i],
                 "holiday_flag": holiday_flags[i],
                 "weather":weathers[i]
-                })
-        supabase.table("Delay_format").insert(rows).execute()
+                }) 
+            supabase.table("Delay_format").insert(rows).execute()
+
+    def update_train(self, stop_seq,distance_frm,station,sched_arr,sched_dep,train_no, date, stations, arr_timings, dep_timings, holiday_flags, weathers):
+        trip_id=str(train_no)+str(date)
+
+        rows=[]
+
+        for i in range(len(stations)):
+            rows.append({
+                "trip_id" : trip_id,
+                "date":date,
+                "train_no":train_no,
+                "stop_seq":stop_seq[i],
+                "station":stations[i],
+                "distance_frm_src":distance_frm[i],
+                "sched_arr":sched_arr[i],
+                "sched_dep":sched_dep[i],
+                "actual_arr":arr_timings[i],
+                "actual_dep":dep_timings[i],
+                "holiday_flag": holiday_flags[i],
+                "weather":weathers[i]
+                }) 
+            supabase.table("Delay_format").insert(rows).execute()
+
+            
+        
