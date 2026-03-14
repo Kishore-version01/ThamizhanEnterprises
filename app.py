@@ -1,7 +1,7 @@
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 import os
 from flask_login import LoginManager, login_user, login_required, logout_user, UserMixin
-from login import loginManager
+from login import loginManager, User
 
 app=Flask(__name__)
 
@@ -23,7 +23,7 @@ def login():
         password = request.form.get('password')
         login_manager = loginManager()
         if login_manager.authenticate(username, password):
-            user = username
+            user = User(username)
             login_user(user, remember=True)
             print("Login successful")
             return redirect(url_for('home'))

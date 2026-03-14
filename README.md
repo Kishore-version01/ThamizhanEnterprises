@@ -20,3 +20,7 @@ COMMIT: 9
      
 COMMIT: 10
      fixed deployment bug
+
+
+COMMIT: 11
+     Bug fixing on Commit 9
