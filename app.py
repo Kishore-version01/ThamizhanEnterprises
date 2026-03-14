@@ -13,6 +13,20 @@ login_manager.init_app(app)
 
 login_manager.login_view = "login"
 
+@login_manager.user_loader
+def load_user(user_id):
+    return User(user_id)
+
+@app.route("/home")
+@login_required
+def home():
+    return "Welcome!"
+
+@app.route("/")
+def logout():
+    logout_user()
+    return "Logged out"
+
 #homepage
 @app.route("/")
 def index():

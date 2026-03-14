@@ -11,17 +11,7 @@ class User(UserMixin):
     def __init__(self, id):
         self.id = id
 
-@login_manager.user_loader
-def load_user(user_id):
-    return User(user_id)
 
 
-@app.route("/home")
-@login_required
-def home():
-    return "Welcome!"
 
-@app.route("/")
-def logout():
-    logout_user()
-    return "Logged out"
+
