@@ -25,7 +25,8 @@ COMMIT: 10
 COMMIT: 11-21
      Bug fixing on Commit 9
 
-COMMIT: 22
-     updated home.html , delay.html and added history.html and also added a logic in app.py for welcom card 
+COMMIT: 22 
+     updated delya.html and home.html and added a new file history.html and created a logic for the welcome card in app.py
 
-
+COMMIT: 23-24
+     Bug fixing on Commit 9
