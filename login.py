@@ -1,9 +1,7 @@
 import flask
 from flask import Flask, request, session, redirect, url_for, jsonify, render_template
 from flask_login import login_user, logout_user, UserMixin
-
 from supabase import create_client, Client
-
 import os
 
 
@@ -17,16 +15,12 @@ if not SUPABASE_URL or not SUPABASE_KEY:
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 
-class loginManager:
+class LoginManagerAuth:
         def authenticate(self, username, password):
-              response = supabase.table("Employee_details").select("*").eq("Email", username).eq("Password", password).execute()
+              response = (supabase.table("Employee_details").select("*").eq("Email", username).eq("Password", password).execute())
               if response.data:
                   return True
               else:
                     return False
-
-def logout():
-    logout_user()
-    return redirect("/")
 
 

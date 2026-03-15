@@ -1,8 +1,9 @@
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 import os
 from flask_login import LoginManager, login_user, login_required, logout_user, UserMixin , current_user
-from login import loginManager
+from login import LoginManagerAuth
 from stdlogin import User
+
 app=Flask(__name__)
 
 app.secret_key = os.getenv("SUPABASE_KEY")
@@ -43,14 +44,20 @@ def index():
 #loginpage
 @app.route("/login", methods=['GET', 'POST'])
 def login():
+    
     print("Login route accessed")
     print("Method:", request.method)
+    
     if request.method == 'POST':
+        
         print("FORM DATA:", request.form)
+        
         username = request.form.get('username')
         password = request.form.get('password')
-        login_manager = loginManager()
-        if login_manager.authenticate(username, password):
+        
+        auth = LoginManagerAuth()
+        
+        if auth.authenticate(username, password):
             user = User(username)
             login_user(user, remember=True)
             print("Login successful")
@@ -58,13 +65,15 @@ def login():
         else:
             print("Login failed")
             return render_template("index.html", error="Invalid credentials")
+        
+        return render_template("index.html")
 
 
 @app.route("/logout")
 @login_required
 def logout():
     logout_user()
-    return "Logged out"
+    return redirect(url_for("index"))
 
 #about page
 @app.route("/about")
