@@ -83,6 +83,7 @@ def check():
 @app.route("/logout")
 @login_required
 def logout():
+    print("Logout route triggered")
     logout_user()
     return redirect(url_for("index"))
 

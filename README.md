@@ -25,8 +25,14 @@ COMMIT: 10
 COMMIT: 11-21
      Bug fixing on Commit 9
 
-COMMIT: 23-26
+COMMIT: 22 
+     updated delya.html and home.html and added a new file history.html and created a logic for the welcome card in app.py
+
+COMMIT: 23-24
      Bug fixing on Commit 9
+
+COMMIT: 25
+     updated aboutus.html with some major developmant
 
 COMMIT: 27
      Fixed logout error
