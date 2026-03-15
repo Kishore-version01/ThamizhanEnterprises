@@ -47,6 +47,10 @@ def login():
     
     print("Login route accessed")
     print("Method:", request.method)
+
+    if current_user.is_authenticated:
+        print("User already logged in:", current_user.id)
+        return redirect(url_for("home"))
     
     if request.method == 'POST':
         
