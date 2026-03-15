@@ -8,7 +8,6 @@ app=Flask(__name__)
 
 app.secret_key = os.getenv("SUPABASE_KEY")
 
-
 login_manager = LoginManager()
 login_manager.init_app(app)
 
@@ -23,7 +22,6 @@ def load_user(user_id):
 def home():
     return render_template("home.html")
 
-
 @app.route("/api/me")
 @login_required
 def me():
@@ -32,7 +30,6 @@ def me():
     if res.data:
         return jsonify({"full_name": res.data[0]["Full Name"], "email": res.data[0]["Email"]})
     return jsonify({"email": current_user.id})
-
 
 #homepage
 @app.route("/")
