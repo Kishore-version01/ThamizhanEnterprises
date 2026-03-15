@@ -30,3 +30,6 @@ COMMIT: 22
 
 COMMIT: 23-24
      Bug fixing on Commit 9
+
+COMMIT: 25
+     updated aboutus.html with some major developmant
