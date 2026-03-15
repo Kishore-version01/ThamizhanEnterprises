@@ -140,37 +140,23 @@
             max-width: 800px;
             margin: auto;
             padding: 50px 50px;
-            /* increased spacing */
             border-radius: 20px;
             backdrop-filter: blur(20px);
-            background: rgba(30, 27, 75, 0.35);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 40px rgba(139, 92, 246, 0.2);
+            background: linear-gradient(135deg, rgba(30, 27, 75, 0.4), rgba(59, 130, 246, 0.1));
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 50px rgba(139, 92, 246, 0.3), 0 0 100px rgba(59, 130, 246, 0.1);
             text-align: left;
             display: flex;
             flex-direction: column;
             gap: 40px;
-            /* 👈 main spacing between blocks */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .delay-group,
-        .delay-group1,
-        .optional-update {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            /* spacing between label + input */
+        .delay-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 60px rgba(139, 92, 246, 0.4), 0 0 120px rgba(59, 130, 246, 0.2);
         }
 
-        .optional-update {
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .delay-group1 {
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
 
         label {
             font-size: 14px;
@@ -454,6 +440,323 @@
             transform: translateY(-3px);
             box-shadow: 0 0 25px rgba(59, 130, 246, 0.9);
         }
+
+        .view-history-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .view-history-btn {
+            display: inline-block;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            color: white;
+            background: linear-gradient(90deg, #8b5cf6, #a78bfa);
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.6);
+            transition: 0.3s ease;
+        }
+
+        .view-history-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px rgba(139, 92, 246, 0.9);
+        }
+
+        .train-search-card {
+            position: relative;
+            max-width: 400px;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .train-search-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .train-search-row input {
+            flex: 1;
+        }
+
+        .selected-train-info {
+            display: none;
+            text-align: left;
+            color: white;
+            max-width: 400px;
+            margin: auto;
+        }
+
+        .selected-train-title {
+            margin-bottom: 8px;
+            color: #8b5cf6;
+        }
+
+        .selected-train-name {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .undo-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .clearRowBtn {
+            padding: 6px 12px;
+            background: rgba(239, 68, 68, 0.8);
+            border: none;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+            display: block;
+            width: 100%;
+        }
+
+        .clearRowBtn:hover {
+            background: rgba(239, 68, 68, 1);
+        }
+
+        .clear-btn {
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: none;
+            background: rgba(239, 68, 68, 0.8);
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .clear-btn:hover {
+            background: rgba(239, 68, 68, 1);
+        }
+
+        #trainInput {
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+        }
+
+        #suggestions {
+            position: absolute;
+            top: 70px;
+            width: 100%;
+            list-style: none;
+            background: #111827;
+            border-radius: 10px;
+            overflow: hidden;
+            display: none;
+            z-index: 2000;
+            /* Ensure suggestions appear above other inputs */
+        }
+
+        #suggestions li {
+            padding: 10px;
+            cursor: pointer;
+            color: white;
+        }
+
+        #suggestions li:hover {
+            background: #1f2937;
+        }
+
+        .train-details-card {
+            margin-top: 25px;
+            padding: 25px;
+            border-radius: 15px;
+            background: rgba(30, 27, 75, 0.3);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .detail-row {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            color: white;
+        }
+
+        .detail-row input {
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .actual-entry-card {
+            margin-top: 25px;
+            padding: 25px;
+            border-radius: 15px;
+            background: rgba(30, 27, 75, 0.3);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .excel-table-container {
+            overflow-x: auto;
+        }
+
+        .delay-table {
+            width: 100%;
+            border-collapse: collapse;
+            color: white;
+        }
+
+        .delay-table th {
+            background: #1e293b;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .delay-table td {
+            padding: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .delay-table input,
+        .delay-table select {
+            width: 100%;
+            padding: 6px;
+            background: rgba(15, 23, 42, 0.7);
+            border: none;
+            color: white;
+            border-radius: 6px;
+        }
+
+        .delay-table button {
+            padding: 6px 12px;
+            background: #3b82f6;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .entry-row {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            color: white;
+        }
+
+        .entry-row input,
+        .entry-row select {
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .update-btn {
+            margin-top: 10px;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
+            color: white;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .update-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.6);
+        }
+
+        .undo-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+
+            background: linear-gradient(135deg, #ef4444, #f87171);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .undo-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.6);
+        }
+
+        .submit-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            margin-top: 10px;
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.6);
+        }
+
+        /* Mobile Responsive Styles */
+        @media (max-width: 768px) {
+
+            .view-history-btn,
+            .back-btn {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+
+            .view-history-container {
+                margin-top: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            .view-history-btn,
+            .back-btn {
+                padding: 10px 16px;
+                font-size: 13px;
+                width: 100%;
+                display: block;
+                margin: 0 auto;
+            }
+
+            .view-history-container {
+                margin-top: 12px;
+            }
+
+            .back-btn-container {
+                margin-top: 12px;
+            }
+        }
     </style>
 </head>
 
@@ -470,12 +773,12 @@
             </div>
 
             <ul class="nav-links" id="navLinks">
-                <li><a href="/">Login</a></li>
-                <li><a href="/home">Home</a></li>
-                <li><a href="/dataentry">Data Entry</a></li>
-                <li><a href="/progress">Progress</a></li>
-                <li><a href="/log">Log</a></li>
-                <li><a href="/about">About Us</a></li>
+                <li><a href="index.html">Login</a></li>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="dataentry.html">Data Entry</a></li>
+                <li><a href="progress.html">Progress</a></li>
+                <li><a href="log.html">Log</a></li>
+                <li><a href="aboutus.html">About Us</a></li>
             </ul>
 
         </div>
@@ -493,48 +796,133 @@
 
         <div class="delay-card">
 
-            <!-- Train Selection -->
-            <div class="delay-group">
-                <label>Train No</label>
-                <input type="text" placeholder="Enter Train Number">
+            <div class="train-search-card">
 
-                <label>Select Existing Train</label>
-                <select>
-                    <option>Choose Train</option>
-                    <option>12001 - Chennai Express</option>
-                    <option>12623 - Trivandrum Mail</option>
-                    <option>12845 - Coromandel Express</option>
-                </select>
+                <label>Train Name</label>
+                <div class="train-search-row">
+                    <input type="text" id="trainInput" placeholder="Search Train Name..." autocomplete="off">
+                    <button id="clearTrainBtn" type="button" class="clear-btn">Clear</button>
+                </div>
+
+                <ul id="suggestions"></ul>
+
             </div>
 
-            <!-- Actual Entry -->
-            <div class="delay-group1">
-                <h3>Entry</h3>
-                <label>Actual Arrival</label>
-                <input type="time">
+            <div class="train-search-card">
+                <label>Date of Travel</label>
+                <input type="date" id="travelDate" />
             </div>
 
-            <!-- Optional Update Section -->
-            <div class="optional-update">
-                <h3>Update (Optional)</h3>
-
-                <label>Scheduled Arrival</label>
-                <input type="time">
-
-                <label>Scheduled Departure</label>
-                <input type="time">
-
-                <label>Route Update</label>
-                <input type="text" placeholder="Enter route changes">
+            <div id="selectedTrainInfo" class="selected-train-info">
+                <h3 class="selected-train-title">Selected Train</h3>
+                <p id="selectedTrainName" class="selected-train-name"></p>
             </div>
 
-            <button class="update-btn">Update</button>
+            <div class="excel-table-container">
 
-        </div>
+                <table class="delay-table">
 
-        <div class="back-btn-container">
-            <a href="/dataentry" class="back-btn">← Back to Data Entry</a>
-        </div>
+                    <thead>
+                        <tr>
+                            <th>Station</th>
+                            <th>Stop Seq</th>
+                            <th>Sch Arrival</th>
+                            <th>Sch Departure</th>
+                            <th>Actual Arrival</th>
+                            <th>Actual Departure</th>
+                            <th>Weather</th>
+                            <th>Holiday</th>
+                            <th>Peak Hr</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="trainTableBody">
+
+                        <tr>
+
+                            <td>
+                                <select id="station" disabled>
+                                    <option value="">Select Station</option>
+                                    <option value="Chennai Central">Chennai Central</option>
+                                    <option value="Madurai">Madurai</option>
+                                    <option value="Delhi Central">Delhi Central</option>
+                                    <option value="Mumbai Central">Mumbai Central</option>
+                                    <option value="Bangalore City">Bangalore City</option>
+                                    <option value="Hyderabad Deccan">Hyderabad Deccan</option>
+                                    <option value="Kolkata Central">Kolkata Central</option>
+                                    <option value="Chennai Beach">Chennai Beach</option>
+                                    <option value="Egmore">Egmore</option>
+                                    <option value="King George Station">King George Station</option>
+                                    <option value="Coimbatore">Coimbatore</option>
+                                    <option value="Salem">Salem</option>
+                                    <option value="Tiruppur">Tiruppur</option>
+                                    <option value="Erode">Erode</option>
+                                    <option value="Dindigul">Dindigul</option>
+                                    <option value="Trichy">Trichy</option>
+                                    <option value="Nagercoil">Nagercoil</option>
+                                </select>
+                            </td>
+
+                            <td><input type="number" id="sequence" readonly></td>
+
+                            <td><input type="time" id="arrival" readonly></td>
+
+                            <td><input type="time" id="departure" readonly></td>
+
+                            <td><input type="time" id="actualArrival"></td>
+
+                            <td><input type="time" id="actualDeparture"></td>
+
+                            <td>
+                                <select id="weather">
+                                    <option>Clear</option>
+                                    <option>Rain</option>
+                                    <option>Storm</option>
+                                    <option>Fog</option>
+                                    <option>Cloudy</option>
+                                </select>
+                            </td>
+
+                            <td>
+                                <select id="holiday">
+                                    <option>No</option>
+                                    <option>Yes</option>
+                                </select>
+                            </td>
+
+                            <td>
+                                <select id="peakHr">
+                                    <option>No</option>
+                                    <option>Yes</option>
+                                </select>
+                            </td>
+
+                            <td>
+                                <button id="updateBtn" class="updateRowBtn">Edit</button>
+                                <button class="clearRowBtn" style="margin-top:4px;background:rgba(239,68,68,0.8);">Clear</button>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <div class="undo-container">
+                <button id="undoBtn" class="undo-btn">Clear Inputs</button>
+                <button id="submitBtn" class="submit-btn">Submit</button>
+            </div>
+
+            <div class="view-history-container">
+                <a href="history.html" class="view-history-btn">📋 View History</a>
+            </div>
+
+            <div class="back-btn-container">
+                <a href="dataentry.html" class="back-btn">← Back to Data Entry</a>
+            </div>
 
     </section>
 
@@ -544,6 +932,552 @@
 
 
     <script>
+
+        document.getElementById("undoBtn").addEventListener("click", function () {
+            const tableBody = document.getElementById("trainTableBody");
+            if (!tableBody) return;
+
+            // Clear only the user-entered fields (date + actual times + dropdowns) for all rows
+            const dateInput = document.getElementById("travelDate");
+            if (dateInput) dateInput.value = "";
+
+            tableBody.querySelectorAll("input[type='time']").forEach(i => i.value = "");
+            tableBody.querySelectorAll("select").forEach(s => s.selectedIndex = 0);
+        });
+
+        document.getElementById("submitBtn").addEventListener("click", function () {
+            const tableBody = document.getElementById("trainTableBody");
+            const rows = tableBody.querySelectorAll("tr");
+            const trainName = document.getElementById("selectedTrainName").textContent;
+            const dateOfTravel = document.getElementById("travelDate").value;
+
+            if (!trainName || trainName === "") {
+                alert("Please select a train first!");
+                return;
+            }
+
+            if (!dateOfTravel) {
+                alert("Please select a date of travel!");
+                return;
+            }
+
+            let allData = [];
+
+            rows.forEach((row, index) => {
+                const stationSelect = row.cells[0].querySelector("select");
+                const station = stationSelect.value;
+
+                if (station === "") {
+                    return;
+                }
+
+                const seq = row.cells[1].querySelector("input").value;
+                const schArr = row.cells[2].querySelector("input").value;
+                const schDep = row.cells[3].querySelector("input").value;
+                const actArr = row.cells[4].querySelector("input").value;
+                const actDep = row.cells[5].querySelector("input").value;
+                const weather = row.cells[6].querySelector("select").value;
+                const holiday = row.cells[7].querySelector("select").value;
+                const peakHr = row.cells[8].querySelector("select").value;
+
+                if (!actArr) {
+                    alert(`Row ${index + 1}: Please enter actual arrival time!`);
+                    return;
+                }
+
+                allData.push({
+                    train: trainName,
+                    dateOfTravel,
+                    station,
+                    seq,
+                    schArr,
+                    schDep,
+                    actArr,
+                    actDep,
+                    weather,
+                    holiday,
+                    peakHr
+                });
+            });
+
+            if (allData.length === 0) {
+                alert("No valid data to submit!");
+                return;
+            }
+
+            console.log("All Submitted Data:", allData);
+            alert("Data submitted successfully! Check console for details.");
+        });
+
+
+        function addTrainRow(train) {
+            const tableBody = document.getElementById("trainTableBody");
+            const selectedTrainInfo = document.getElementById("selectedTrainInfo");
+            const selectedTrainName = document.getElementById("selectedTrainName");
+
+            // Show selected train
+            selectedTrainName.textContent = train.name;
+            selectedTrainInfo.style.display = "block";
+            suggestionBox.style.display = "none";
+
+            // Check if the first row has data (train station is filled)
+            let firstRow = tableBody.querySelector("tr");
+            const stationSelect = firstRow?.cells[0].querySelector("select");
+            const firstRowHasData = stationSelect && stationSelect.value !== "";
+
+            // If first row has data, create a new row; otherwise, use the first row
+            let targetRow;
+
+            if (firstRow && firstRowHasData) {
+                // Create a new row
+                targetRow = document.createElement("tr");
+                targetRow.innerHTML = `
+<td>
+<select disabled>
+<option value="">Select Station</option>
+<option value="Chennai Central" ${train.station === "Chennai Central" ? "selected" : ""}>Chennai Central</option>
+<option value="Madurai" ${train.station === "Madurai" ? "selected" : ""}>Madurai</option>
+<option value="Delhi Central" ${train.station === "Delhi Central" ? "selected" : ""}>Delhi Central</option>
+<option value="Mumbai Central" ${train.station === "Mumbai Central" ? "selected" : ""}>Mumbai Central</option>
+<option value="Bangalore City" ${train.station === "Bangalore City" ? "selected" : ""}>Bangalore City</option>
+<option value="Hyderabad Deccan" ${train.station === "Hyderabad Deccan" ? "selected" : ""}>Hyderabad Deccan</option>
+<option value="Kolkata Central" ${train.station === "Kolkata Central" ? "selected" : ""}>Kolkata Central</option>
+<option value="Chennai Beach" ${train.station === "Chennai Beach" ? "selected" : ""}>Chennai Beach</option>
+<option value="Egmore" ${train.station === "Egmore" ? "selected" : ""}>Egmore</option>
+<option value="King George Station" ${train.station === "King George Station" ? "selected" : ""}>King George Station</option>
+<option value="Coimbatore" ${train.station === "Coimbatore" ? "selected" : ""}>Coimbatore</option>
+<option value="Salem" ${train.station === "Salem" ? "selected" : ""}>Salem</option>
+<option value="Tiruppur" ${train.station === "Tiruppur" ? "selected" : ""}>Tiruppur</option>
+<option value="Erode" ${train.station === "Erode" ? "selected" : ""}>Erode</option>
+<option value="Dindigul" ${train.station === "Dindigul" ? "selected" : ""}>Dindigul</option>
+<option value="Trichy" ${train.station === "Trichy" ? "selected" : ""}>Trichy</option>
+<option value="Nagercoil" ${train.station === "Nagercoil" ? "selected" : ""}>Nagercoil</option>
+</select>
+</td>
+<td><input type="number" value="${train.sequence}" readonly></td>
+<td><input type="time" value="${train.arrival}" readonly></td>
+<td><input type="time" value="${train.departure}" readonly></td>
+<td><input type="time"></td>
+<td><input type="time"></td>
+
+<td>
+<select>
+<option>Clear</option>
+<option>Rain</option>
+<option>Storm</option>
+<option>Fog</option>
+<option>Cloudy</option>
+</select>
+</td>
+
+<td>
+<select>
+<option>No</option>
+<option>Yes</option>
+</select>
+</td>
+
+<td>
+<select>
+<option>No</option>
+<option>Yes</option>
+</select>
+</td>
+
+<td>
+<button class="updateRowBtn">Edit</button>
+<button class="clearRowBtn" style="margin-top:4px;background:rgba(239,68,68,0.8);">Clear</button>
+</td>
+`;
+                tableBody.appendChild(targetRow);
+            } else {
+                // Use the existing first row
+                if (!firstRow) {
+                    targetRow = document.createElement("tr");
+                    targetRow.innerHTML = `
+<td>
+<select disabled>
+<option value="">Select Station</option>
+<option value="Chennai Central" ${train.station === "Chennai Central" ? "selected" : ""}>Chennai Central</option>
+<option value="Madurai" ${train.station === "Madurai" ? "selected" : ""}>Madurai</option>
+<option value="Delhi Central" ${train.station === "Delhi Central" ? "selected" : ""}>Delhi Central</option>
+<option value="Mumbai Central" ${train.station === "Mumbai Central" ? "selected" : ""}>Mumbai Central</option>
+<option value="Bangalore City" ${train.station === "Bangalore City" ? "selected" : ""}>Bangalore City</option>
+<option value="Hyderabad Deccan" ${train.station === "Hyderabad Deccan" ? "selected" : ""}>Hyderabad Deccan</option>
+<option value="Kolkata Central" ${train.station === "Kolkata Central" ? "selected" : ""}>Kolkata Central</option>
+<option value="Chennai Beach" ${train.station === "Chennai Beach" ? "selected" : ""}>Chennai Beach</option>
+<option value="Egmore" ${train.station === "Egmore" ? "selected" : ""}>Egmore</option>
+<option value="King George Station" ${train.station === "King George Station" ? "selected" : ""}>King George Station</option>
+<option value="Coimbatore" ${train.station === "Coimbatore" ? "selected" : ""}>Coimbatore</option>
+<option value="Salem" ${train.station === "Salem" ? "selected" : ""}>Salem</option>
+<option value="Tiruppur" ${train.station === "Tiruppur" ? "selected" : ""}>Tiruppur</option>
+<option value="Erode" ${train.station === "Erode" ? "selected" : ""}>Erode</option>
+<option value="Dindigul" ${train.station === "Dindigul" ? "selected" : ""}>Dindigul</option>
+<option value="Trichy" ${train.station === "Trichy" ? "selected" : ""}>Trichy</option>
+<option value="Nagercoil" ${train.station === "Nagercoil" ? "selected" : ""}>Nagercoil</option>
+</select>
+</td>
+<td><input type="number" value="${train.sequence}" readonly></td>
+<td><input type="time" value="${train.arrival}" readonly></td>
+<td><input type="time" value="${train.departure}" readonly></td>
+<td><input type="time"></td>
+<td><input type="time"></td>
+
+<td>
+<select>
+<option>Clear</option>
+<option>Rain</option>
+<option>Storm</option>
+<option>Fog</option>
+<option>Cloudy</option>
+</select>
+</td>
+
+<td>
+<select>
+<option>No</option>
+<option>Yes</option>
+</select>
+</td>
+
+<td>
+<select>
+<option>No</option>
+<option>Yes</option>
+</select>
+</td>
+
+<td>
+<button class="updateRowBtn">Edit</button>
+<button class="clearRowBtn" style="margin-top:4px;background:rgba(239,68,68,0.8);">Clear</button>
+</td>
+`;
+                    tableBody.appendChild(targetRow);
+                } else {
+                    targetRow = firstRow;
+                    const stationSelect = targetRow.querySelector("select");
+                    stationSelect.value = train.station;
+                    const inputs = targetRow.querySelectorAll("input[readonly]");
+                    inputs[0].value = train.sequence;
+                    inputs[1].value = train.arrival;
+                    inputs[2].value = train.departure;
+                }
+            }
+
+            // Clear any previously entered values for the selected train
+            targetRow.querySelectorAll("input[type='time']").forEach(i => i.value = "");
+            // Reset only weather, holiday, and peak hour dropdowns (skip station dropdown)
+            const selects = targetRow.querySelectorAll("select");
+            for (let i = 1; i < selects.length; i++) {
+                selects[i].selectedIndex = 0;
+            }
+
+            // Clear the input field for next search
+            input.value = "";
+        }
+
+        document.addEventListener("click", function (e) {
+            // Per-row Clear button logic
+            if (e.target.classList.contains("clearRowBtn")) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                const tableBody = document.getElementById("trainTableBody");
+                const clickedRow = e.target.closest("tr");
+                if (!clickedRow) return;
+
+                const allRows = tableBody.getElementsByTagName("tr");
+
+                if (allRows.length > 1) {
+                    // Multiple rows → delete this specific row
+                    clickedRow.parentNode.removeChild(clickedRow);
+                } else {
+                    // Only one row left → just clear its data
+                    const inputs = clickedRow.getElementsByTagName("input");
+                    for (let i = 0; i < inputs.length; i++) inputs[i].value = "";
+
+                    const selects = clickedRow.getElementsByTagName("select");
+                    for (let i = 0; i < selects.length; i++) selects[i].selectedIndex = 0;
+
+                    const selectedTrainInfo = document.getElementById("selectedTrainInfo");
+                    if (selectedTrainInfo) selectedTrainInfo.style.display = "none";
+
+                    const dateInput = document.getElementById("travelDate");
+                    if (dateInput) dateInput.value = "";
+
+                    const trainInput = document.getElementById("trainInput");
+                    if (trainInput) trainInput.value = "";
+
+                    const suggBox = document.getElementById("suggestions");
+                    if (suggBox) { suggBox.innerHTML = ""; suggBox.style.display = "none"; }
+                }
+                return;
+            }
+
+            if (e.target.classList.contains("updateRowBtn")) {
+                const row = e.target.closest("tr");
+                if (!row) return;
+
+                const editBtn = e.target;
+                // Get the fixed fields (seq, arrival, departure) that should toggle readonly
+                const stationSelect = row.cells[0].querySelector("select");
+                const fixedInputs = [
+                    row.cells[1].querySelector("input"),
+                    row.cells[2].querySelector("input"),
+                    row.cells[3].querySelector("input")
+                ];
+
+                // Check if currently in readonly mode
+                const isCurrentlyReadonly = fixedInputs[0].hasAttribute("readonly");
+
+                if (isCurrentlyReadonly) {
+                    // Switch to EDIT mode - make fixed fields editable
+                    stationSelect.disabled = false;
+                    fixedInputs.forEach(input => {
+                        input.removeAttribute("readonly");
+                    });
+                    editBtn.textContent = "Save";
+                    editBtn.style.background = "linear-gradient(135deg, #22c55e, #4ade80)";
+                } else {
+                    // Switch to SAVE mode - collect data and make readonly again
+                    const station = stationSelect.value;
+                    const seq = row.cells[1].querySelector("input").value;
+                    const schArr = row.cells[2].querySelector("input").value;
+                    const schDep = row.cells[3].querySelector("input").value;
+                    const actArr = row.cells[4].querySelector("input").value;
+                    const actDep = row.cells[5].querySelector("input").value;
+                    const weather = row.cells[6].querySelector("select").value;
+                    const holiday = row.cells[7].querySelector("select").value;
+                    const peakHr = row.cells[8].querySelector("select").value;
+
+                    const dateOfTravel = document.getElementById("travelDate")?.value;
+
+                    const data = {
+                        train: document.getElementById("selectedTrainName").textContent,
+                        dateOfTravel,
+                        station,
+                        seq,
+                        schArr,
+                        schDep,
+                        actArr,
+                        actDep,
+                        weather,
+                        holiday,
+                        peakHr
+                    };
+
+                    console.log("Train Updated:", data);
+                    alert("Train details updated successfully!");
+
+                    // Switch back to VIEW mode - make fixed fields readonly again
+                    stationSelect.disabled = true;
+                    fixedInputs.forEach(input => {
+                        input.setAttribute("readonly", "readonly");
+                    });
+                    editBtn.textContent = "Edit";
+                    editBtn.style.background = "linear-gradient(135deg, #3b82f6, #60a5fa)";
+                }
+            }
+        });
+
+        document.getElementById("clearTrainBtn").addEventListener("click", function () {
+
+            const tableBody = document.getElementById("trainTableBody");
+            const selectedTrainInfo = document.getElementById("selectedTrainInfo");
+
+            const rowCount = tableBody.children.length;
+
+            // ✅ if multiple rows → delete last row
+            if (rowCount > 1) {
+
+                tableBody.removeChild(tableBody.lastElementChild);
+
+            }
+
+            // ✅ if only one row → clear values
+            else if (rowCount === 1) {
+
+                const row = tableBody.children[0];
+
+                row.querySelectorAll("input").forEach(i => i.value = "");
+                row.querySelectorAll("select").forEach(s => s.selectedIndex = 0);
+
+                if (selectedTrainInfo) {
+                    selectedTrainInfo.style.display = "none";
+                }
+
+                const dateInput = document.getElementById("travelDate");
+                if (dateInput) dateInput.value = "";
+
+            }
+
+            input.value = "";
+            suggestionBox.innerHTML = "";
+            suggestionBox.style.display = "none";
+
+        });
+
+        const trains = [
+            {
+                name: "Chennai Express",
+                station: "Chennai Central",
+                sequence: "1",
+                arrival: "06:00",
+                departure: "06:10"
+            },
+            {
+                name: "Vande Bharat Express",
+                station: "Chennai Central",
+                sequence: "1",
+                arrival: "05:50",
+                departure: "06:00"
+            },
+            {
+                name: "Pandian Express",
+                station: "Madurai",
+                sequence: "7",
+                arrival: "21:20",
+                departure: "21:25"
+            },
+            {
+                name: "Rajdhani Express",
+                station: "Delhi Central",
+                sequence: "1",
+                arrival: "08:00",
+                departure: "08:15"
+            },
+            {
+                name: "Shatabdi Express",
+                station: "Mumbai Central",
+                sequence: "1",
+                arrival: "07:30",
+                departure: "07:45"
+            },
+            {
+                name: "Bangalore Express",
+                station: "Bangalore City",
+                sequence: "5",
+                arrival: "14:00",
+                departure: "14:10"
+            },
+            {
+                name: "Deccan Express",
+                station: "Hyderabad Deccan",
+                sequence: "3",
+                arrival: "10:30",
+                departure: "10:40"
+            },
+            {
+                name: "Eastern Express",
+                station: "Kolkata Central",
+                sequence: "2",
+                arrival: "09:20",
+                departure: "09:35"
+            },
+            {
+                name: "Beachline Express",
+                station: "Chennai Beach",
+                sequence: "1",
+                arrival: "06:45",
+                departure: "06:55"
+            },
+            {
+                name: "Heritage Express",
+                station: "Egmore",
+                sequence: "2",
+                arrival: "07:15",
+                departure: "07:25"
+            },
+            {
+                name: "Royal Express",
+                station: "King George Station",
+                sequence: "4",
+                arrival: "12:00",
+                departure: "12:10"
+            },
+            {
+                name: "Coimbatore Express",
+                station: "Coimbatore",
+                sequence: "6",
+                arrival: "18:30",
+                departure: "18:40"
+            },
+            {
+                name: "Salem Express",
+                station: "Salem",
+                sequence: "4",
+                arrival: "12:45",
+                departure: "12:55"
+            },
+            {
+                name: "Tiruppur Express",
+                station: "Tiruppur",
+                sequence: "5",
+                arrival: "15:20",
+                departure: "15:30"
+            },
+            {
+                name: "Erode Express",
+                station: "Erode",
+                sequence: "3",
+                arrival: "11:00",
+                departure: "11:10"
+            },
+            {
+                name: "Dindigul Express",
+                station: "Dindigul",
+                sequence: "6",
+                arrival: "19:45",
+                departure: "19:55"
+            },
+            {
+                name: "Trichy Express",
+                station: "Trichy",
+                sequence: "7",
+                arrival: "20:15",
+                departure: "20:25"
+            },
+            {
+                name: "Nagercoil Express",
+                station: "Nagercoil",
+                sequence: "8",
+                arrival: "23:00",
+                departure: "23:10"
+            }
+        ];
+
+        const input = document.getElementById("trainInput");
+        const suggestionBox = document.getElementById("suggestions");
+
+        input.addEventListener("input", function () {
+            if (input.disabled) return;
+
+            let value = input.value.toLowerCase();
+            suggestionBox.innerHTML = "";
+
+            if (value === "") {
+                suggestionBox.style.display = "none";
+                return;
+            }
+
+            let filtered = trains.filter(t =>
+                t.name.toLowerCase().includes(value)
+            );
+
+            filtered.forEach(train => {
+                let li = document.createElement("li");
+                li.textContent = train.name;
+
+                li.onclick = function () {
+                    suggestionBox.style.display = "none";
+                    addTrainRow(train);
+                }
+
+                suggestionBox.appendChild(li);
+            });
+
+            suggestionBox.style.display = filtered.length ? "block" : "none";
+        });
 
         const canvas = document.getElementById("starCanvas");
         const ctx = canvas ? canvas.getContext("2d") : null;

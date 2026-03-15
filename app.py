@@ -1,6 +1,6 @@
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 import os
-from flask_login import LoginManager, login_user, login_required, logout_user, UserMixin
+from flask_login import LoginManager, login_user, login_required, logout_user, UserMixin , current_user
 from login import loginManager
 from stdlogin import User
 app=Flask(__name__)
@@ -23,6 +23,14 @@ def home():
     return render_template("home.html")
 
 
+@app.route("/api/me")
+@login_required
+def me():
+    from login import supabase
+    res = supabase.table("Employee_details").select("Full Name, Email").eq("Email", current_user.id).execute()
+    if res.data:
+        return jsonify({"full_name": res.data[0]["Full Name"], "email": res.data[0]["Email"]})
+    return jsonify({"email": current_user.id})
 
 
 #homepage

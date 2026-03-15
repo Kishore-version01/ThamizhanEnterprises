@@ -499,6 +499,59 @@
                 0 0 10px #3b82f6,
                 0 0 20px #3b82f6;
         }
+
+        /* USER WELCOME CARD */
+        .user-welcome-card {
+            margin-top: 28px;
+            display: inline-flex;
+            align-items: center;
+            gap: 16px;
+            background: rgba(30, 27, 75, 0.45);
+            border: 1px solid rgba(139, 92, 246, 0.35);
+            border-radius: 16px;
+            padding: 14px 26px;
+            backdrop-filter: blur(12px);
+            animation: fadeSlide 2.8s ease forwards;
+            opacity: 0;
+        }
+
+        .user-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #5b21b6, #3b82f6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .user-info-text {
+            text-align: left;
+        }
+
+        .user-info-text .welcome-label {
+            font-size: 11px;
+            color: #a78bfa;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .user-info-text .user-fullname {
+            font-size: 16px;
+            font-weight: 600;
+            color: #ffffff;
+            margin: 1px 0;
+        }
+
+        .user-info-text .user-id {
+            font-size: 12px;
+            color: #94a3b8;
+        }
     </style>
 </head>
 
@@ -517,7 +570,6 @@
             </div>
 
             <ul class="nav-links" id="navLinks">
-                <li><a href="/">Login</a></li>
                 <li><a href="/home">Home</a></li>
                 <li><a href="/dataentry">Data Entry</a></li>
                 <li><a href="/progress">Progress</a></li>
@@ -527,6 +579,9 @@
 
         </div>
     </nav>
+
+    <!-- Pass user email from Flask-Login to JS -->
+    <meta name="user-email" content="{{ current_user.id }}">
 
     <section class="hero">
         <div class="hero-content">
@@ -538,6 +593,16 @@
             <p class="hero-subtitle">
                 Empowering digital growth through data, progress tracking, and innovation.
             </p>
+
+            <!-- User Welcome Card -->
+            <div class="user-welcome-card">
+                <div class="user-avatar" id="userAvatar">?</div>
+                <div class="user-info-text">
+                    <div class="welcome-label">Welcome back</div>
+                    <div class="user-fullname" id="userFullName">Loading...</div>
+                    <div class="user-id" id="userId">ID: {{ current_user.id }}</div>
+                </div>
+            </div>
 
             <div class="hero-buttons">
                 <a href="/about" class="btn secondary-btn">Learn More</a>
@@ -692,6 +757,33 @@
                 e.preventDefault();
             }
         });
+
+        // Fetch user full name from /api/me and populate welcome card
+        (async function loadUserInfo() {
+            try {
+                const res = await fetch('/api/me');
+                if (!res.ok) throw new Error('Not ok');
+                const data = await res.json();
+
+                const fullName = data.full_name || data['Full Name'] || '';
+                const email = data.email || document.querySelector('meta[name="user-email"]').content;
+
+                if (fullName) {
+                    document.getElementById('userFullName').textContent = fullName;
+                    document.getElementById('userAvatar').textContent = fullName[0].toUpperCase();
+                } else {
+                    document.getElementById('userFullName').textContent = email;
+                    document.getElementById('userAvatar').textContent = email[0].toUpperCase();
+                }
+                document.getElementById('userId').textContent = 'ID: ' + email;
+            } catch (e) {
+                // Fallback: just show email from meta tag
+                const email = document.querySelector('meta[name="user-email"]').content;
+                document.getElementById('userFullName').textContent = email;
+                document.getElementById('userAvatar').textContent = email ? email[0].toUpperCase() : '?';
+                document.getElementById('userId').textContent = 'ID: ' + email;
+            }
+        })();
 
 
         const menuToggle = document.getElementById("menuToggle");
