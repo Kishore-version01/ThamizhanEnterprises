@@ -35,4 +35,7 @@ COMMIT: 25
      updated aboutus.html with some major developmant
 
 COMMIT: 26
-     Created a branch (develop) and created a another sub-branch register 
+     Created a branch (develop) and created a another sub-branch register
+
+COMMIT: 27
+     fixing logout issues
