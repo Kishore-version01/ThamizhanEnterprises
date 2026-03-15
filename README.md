@@ -28,3 +28,6 @@ COMMIT: 11-21
 COMMIT: 23-26
      Bug fixing on Commit 9
 
+COMMIT: 27
+     Fixed logout error
+
