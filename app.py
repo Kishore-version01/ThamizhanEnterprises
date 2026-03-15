@@ -70,8 +70,13 @@ def login():
             print("Login failed")
             return render_template("index.html", error="Invalid credentials")
         
-        return render_template("index.html")
+    return render_template("index.html")
 
+@app.route("/check")
+def check():
+    if current_user.is_authenticated:
+        return f"Logged in as {current_user.id}"
+    return "Not logged in"
 
 @app.route("/logout")
 @login_required
