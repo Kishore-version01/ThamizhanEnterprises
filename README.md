@@ -25,3 +25,7 @@ COMMIT: 10
 COMMIT: 11-21
      Bug fixing on Commit 9
 
+COMMIT: 22
+     updated home.html , delay.html and added history.html and also added a logic in app.py for welcom card 
+
+
